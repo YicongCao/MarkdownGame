@@ -48,10 +48,6 @@ function proceed(stage, input, chapter) {
             }
         }
 
-        // return {
-        //     chapter: chapter,
-        //     output: defaults[target].description
-        // }
         if (defaults[target].action == "goto") {
             // 章节跳转
             console.log("默认分支 - 章节跳转")
