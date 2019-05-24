@@ -6,14 +6,21 @@ stages:
     story: "@sender，欢迎来到**@title**，现在时间是晚上11:00，你还有两个bug没写完，此时产品经理发来一条消息"
     choices:
       - keywords: [查看, 打开, 消息]
-        description: 正在打开消息
+        description: 
         action: goto
         param: "10.1"
+      - keywords: [回家, 家]
+        description: 福报还没修满，不能回家
+        action: none
   "10.1":
     chapter: 结局
     story: |+
       天亮了，你揉了揉眼睛，打卡下班了～
       拖着疲惫的身躯，回到家里睡了一觉
+    choices:
+      - keywords: [退出, 结束]
+        description: 游戏已经结束，您可以选择重置游戏
+        action: none
 defaults:
   - conditions:
       chapter: "*"
@@ -26,3 +33,16 @@ defaults:
       > **帮助**: help、man
       > **重置**: reset
       > **排行榜**: rank、score
+  - conditions:
+      chapter: "*"
+      keywords: [reset, 重置, 回到开始]
+    action: goto
+    param: "1.1"
+    description: |+
+      重置章节
+  - conditions:
+      chapter: "*"
+      keywords: []
+    action: none
+    description: |+
+      抱歉，我听不懂你说的话
