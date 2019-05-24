@@ -17,6 +17,7 @@
         "yamljs": "^0.3.0"
     },
     "devDependencies": {
+        "eslint": "^5.16.0",
         "nock": "^10.0.6"
     }
 }
