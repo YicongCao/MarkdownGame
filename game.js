@@ -3,10 +3,6 @@ const script = require('./script_loader') // 使用 loader
 
 function displayStage(stage, player) {
     var story = stage.story
-    // var story = stage.story.replace("@sender", "@" + player).replace("@title", script.title)
-    // var template = "### [title]\n[story]\n"
-    // var output = template.replace("[title]", stage.chapter).replace("[story]", story)
-    // return output
     return displayCustom(stage, story, player)
 }
 
