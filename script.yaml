@@ -1,0 +1,28 @@
+title: 科兴大冒险
+msgtype: markdown
+stages:
+  "1.1":
+    chapter: 序章
+    story: "@sender，欢迎来到**@title**，现在时间是晚上11:00，你还有两个bug没写完，此时产品经理发来一条消息"
+    choices:
+      - keywords: [查看, 打开, 消息]
+        description: 正在打开消息
+        action: goto
+        param: "10.1"
+  "10.1":
+    chapter: 结局
+    story: |+
+      天亮了，你揉了揉眼睛，打卡下班了～
+      拖着疲惫的身躯，回到家里睡了一觉
+defaults:
+  - conditions:
+      chapter: "*"
+      keywords: [help, man, 帮助]
+    action: none
+    description: |+
+      欢迎来到**@title**，这是一个**文字冒险游戏**，你通过输入**动作**或**指令**来推进剧情、获取帮助。这个游戏讲述的
+      是发生在科兴科学园的深夜加班故事，也许你就是这个故事的见证者，见证无数互联网人的苦乐悲欢。希望这个游戏能为加班一族带来些许快乐。
+      游戏基本操作如下: 
+      > **帮助**: help、man
+      > **重置**: reset
+      > **排行榜**: rank、score
