@@ -50,14 +50,14 @@ function proceed(stage, input, chapter) {
 
         if (defaults[target].action == "goto") {
             // 章节跳转
-            console.log("默认分支 - 章节跳转")
+            // console.log("默认分支 - 章节跳转")
             return {
                 chapter: defaults[target].param,
                 output: ""
             }
         } else if (defaults[target].action == "none") {
             // 章节不变
-            console.log("默认分支 - 章节不变")
+            // console.log("默认分支 - 章节不变")
             return {
                 chapter: chapter,
                 output: defaults[target].description
@@ -74,14 +74,14 @@ function proceed(stage, input, chapter) {
         // 选择结果
         if (stage.choices[target].action == "goto") {
             // 章节推进
-            console.log("选择分支 - 章节推进")
+            // console.log("选择分支 - 章节推进")
             return {
                 chapter: stage.choices[target].param,
                 output: ""
             }
         } else if (stage.choices[target].action == "none") {
             // 章节不变
-            console.log("选择分支 - 章节不变")
+            // console.log("选择分支 - 章节不变")
             return {
                 chapter: chapter,
                 output: stage.choices[target].description
@@ -97,25 +97,26 @@ function proceed(stage, input, chapter) {
 }
 
 function play(chapter, input, player = "player") {
-    console.log("玩家:", player, "当前章节:", chapter, "输入:", input)
+    // console.log("玩家:", player, "当前章节:", chapter, "输入:", input)
     var chapterAfter = chapter
     var outputText = ""
     var stage = script.stages[chapter]
     if (String(input).trim() == "") {
         // 播放当前剧情
-        console.log("用户无输入，播放当前剧情")
+        // console.log("用户无输入，播放当前剧情")
         outputText = displayStage(stage, player)
     } else {
         // 处理用户输入
         var result = proceed(stage, input, chapter)
+        chapterAfter = result.chapter
         if (result.chapter == chapter) {
             // 章节没有推进
-            console.log("章节没有推进")
+            // console.log("章节没有推进")
             outputText = displayCustom(stage, result.output)
         } else {
             // 章节推进了
-            console.log("章节推进了～")
-            var stageNext = script.stages[result.chapter]
+            // console.log("章节推进了～")
+            var stageNext = script.stages[chapterAfter]
             if (stageNext == undefined) {
                 outputText = "新章节不存在"
             } else {
