@@ -8,7 +8,7 @@ function displayStage(stage, player) {
 
 function displayCustom(stage, defmsg, player) {
     defmsg = defmsg.replace("@sender", "@" + player).replace("@title", script.title)
-    var template = "### [title]\n[story]\n"
+    var template = '#### [title]\n[story]\n'
     var output = template.replace("[title]", stage.chapter).replace("[story]", defmsg)
     return output
 }
@@ -18,6 +18,10 @@ function proceed(stage, input, chapter) {
     var target = -1
     loop1:
         for (var i = 0; i < stage.choices.length; i++) {
+            if (stage.choices[i].keywords.length == 0) {
+                target = i
+                break loop1
+            }
             for (var j = 0; j < stage.choices[i].keywords.length; j++) {
                 if (input.indexOf(stage.choices[i].keywords[j]) != -1) {
                     target = i
@@ -112,7 +116,11 @@ function play(chapter, input, player = "player") {
         if (result.chapter == chapter) {
             // 章节没有推进
             // console.log("章节没有推进")
-            outputText = displayCustom(stage, result.output)
+            if (result.output == "") {
+                outputText = displayStage(stage, player)
+            } else {
+                outputText = displayCustom(stage, result.output, player)
+            }
         } else {
             // 章节推进了
             // console.log("章节推进了～")
