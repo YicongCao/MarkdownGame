@@ -1,6 +1,6 @@
 const readline = require('readline-sync');
 const play = require("./play")
-const save = require("./save")
+const save = require("./save_offline")
 
 var profile = save.loadFromDisk()
 // 新开存档
@@ -12,12 +12,13 @@ if (profile == undefined) {
     }
     profile = {
         player: player,
-        chapter: "1.1"
+        chapter: "1.1",
+        variables: {}
     }
     save.saveToDisk(profile)
 }
 // 继续游戏
-var scene = play(profile.chapter, "", profile.player)
+var scene = play("", profile)
 console.log(scene.output)
 while (true) {
     var input = readline.question("请输入您的操作: ")
@@ -25,9 +26,10 @@ while (true) {
         break
     }
     // 对局
-    scene = play(profile.chapter, input, profile.player)
+    scene = play(input, profile)
     // 存档
     profile.chapter = scene.chapter
+    profile.variables = scene.variables
     save.saveToDisk(profile)
     // 展示剧情
     console.log(scene.output)
