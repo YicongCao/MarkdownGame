@@ -1,3 +1,7 @@
+# Custom
+save.yaml
+.eslintrc.yml
+
 # Logs
 logs
 *.log
