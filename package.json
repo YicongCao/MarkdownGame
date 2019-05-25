@@ -13,6 +13,7 @@
     "author": "pixelcao pixelcao@tencent.com",
     "license": "ISC",
     "dependencies": {
+        "readline-sync": "^1.4.9",
         "request": "^2.88.0",
         "yamljs": "^0.3.0"
     },
