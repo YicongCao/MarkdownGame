@@ -132,8 +132,8 @@ function play(chapter, input, player = "player") {
 
 module.exports = play
 
-console.log("\n" + play("1.1", "").output)
-console.log("\n" + play("1.1", "回家").output)
-console.log("\n" + play("1.1", "打开").output)
-console.log("\n" + play("10.1", "重置").output)
-console.log("\n" + play("10.1", "帮助").output)
+// console.log("\n" + play("1.1", "").output)
+// console.log("\n" + play("1.1", "回家").output)
+// console.log("\n" + play("1.1", "打开").output)
+// console.log("\n" + play("10.1", "重置").output)
+// console.log("\n" + play("10.1", "帮助").output)
