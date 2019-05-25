@@ -23,7 +23,9 @@ stages:
         description: "> @sender，你的`福报`还没修满，不能回家"
         action: none
       - keywords: [代码, 程序, 写, 继续, 忽略]
-        description: "> @sender，由于你努力的编写代码，福报值+1"
+        description: |-
+          > @sender，由于你努力的编写代码，福报值+1
+          > 当前福报值: @work
         action: incr
         param: work
       - keywords: [摔, 白眼, 睡觉, 困, 趴, 休息]
@@ -55,6 +57,7 @@ stages:
 # 动态条件: 输入选项结算后，会检查动态条件，若条件成立，则执行操作
 dynamics:
   - conditions:
+      chapter: "1.*"
       expression: work >= 5
     action: goto
     param: "10.2"

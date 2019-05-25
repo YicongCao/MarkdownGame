@@ -2,14 +2,17 @@ const script = require('./script_loader') // 使用 loader
 // const script = require('./script') // 使用 导出成js的信息
 
 // 显示章节剧情
-function displayStage(stage, player) {
+function displayStage(stage, player, vars) {
     var story = stage.story
-    return displayCustom(stage, story, player)
+    return displayCustom(stage, story, player, vars)
 }
 
 // 显示自定内容
-function displayCustom(stage, defmsg, player) {
+function displayCustom(stage, defmsg, player, vars) {
     defmsg = defmsg.replace("@sender", "@" + player).replace("@title", script.title)
+    Object.keys(vars).forEach(function (key) {
+        defmsg = defmsg.replace("@" + key, vars[key])
+    })
     var template = '#### [title]\n[story]\n'
     var output = template.replace("[title]", stage.chapter).replace("[story]", defmsg)
     return output
@@ -178,7 +181,7 @@ function play(input, profile) {
     if (String(input).trim() == "") {
         // 播放当前剧情
         // console.log("用户无输入，播放当前剧情")
-        outputText = displayStage(stage, player)
+        outputText = displayStage(stage, player, vars)
     } else {
         // 处理用户输入
         var result = proceed(stage, input, chapter, vars)
@@ -188,9 +191,9 @@ function play(input, profile) {
             // 章节没有推进
             // console.log("章节没有推进")
             if (result.output == "") {
-                outputText = displayStage(stage, player)
+                outputText = displayStage(stage, player, vars)
             } else {
-                outputText = displayCustom(stage, result.output, player)
+                outputText = displayCustom(stage, result.output, player, vars)
             }
         } else {
             // 章节推进了
@@ -199,7 +202,7 @@ function play(input, profile) {
             if (stageNext == undefined) {
                 outputText = "新章节不存在"
             } else {
-                outputText = displayStage(stageNext, player)
+                outputText = displayStage(stageNext, player, vars)
             }
         }
     }
