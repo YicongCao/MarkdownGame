@@ -13,7 +13,8 @@ if (profile == undefined) {
     profile = {
         player: player,
         chapter: "1.1",
-        variables: {}
+        variables: {},
+        inputs: []
     }
     save.saveToDisk(profile)
 }
@@ -26,6 +27,8 @@ while (true) {
         break
     }
     // 对局
+    profile.inputs.push(input)
+    save.saveToDisk(profile)
     scene = play(input, profile)
     // 存档
     profile.chapter = scene.chapter
