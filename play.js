@@ -3,7 +3,7 @@ const script = require('./script_loader') // 使用 loader
 
 // 显示章节剧情
 function displayStage(stage, player, vars) {
-    var story = stage.story
+    var story = stage == undefined ? "该小节没有故事" : stage.story
     return displayCustom(stage, story, player, vars)
 }
 
@@ -14,7 +14,7 @@ function displayCustom(stage, defmsg, player, vars) {
         defmsg = defmsg.replace("@" + key, vars[key])
     })
     var template = '#### [title]\n[story]\n'
-    var output = template.replace("[title]", stage.chapter).replace("[story]", defmsg)
+    var output = template.replace("[title]", stage == undefined ? "未知章节" : stage.chapter).replace("[story]", defmsg)
     return output
 }
 
@@ -138,7 +138,7 @@ function proceed(stage, input, chapter, vars) {
     // 查找剧情选项
     var target = -1
     loop1:
-        for (var i = 0; i < stage.choices.length; i++) {
+        for (var i = 0; stage != undefined && i < stage.choices.length; i++) {
             if (stage.choices[i].keywords.length == 0) {
                 target = i
                 break loop1
