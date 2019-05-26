@@ -37,6 +37,7 @@ function proceed(stage, input, chapter, vars) {
     var defaults = script.defaults
     var dynamics = script.dynamics
     var variables = script.variables
+    input = String(input).toLowerCase()
     // 处理剧情选项/默认回复
     var process = function (choice) {
         var ret = {
@@ -44,30 +45,63 @@ function proceed(stage, input, chapter, vars) {
             output: "",
             variables: vars
         }
-        // 执行行动
-        if (choice.action == "goto") {
-            // 章节推进
-            ret.chapter = choice.param
-        } else if (choice.action == "none") {
-            // 章节不变
-            ret.output = choice.description
-        } else if (choice.action == "incr") {
-            // 变量增加，章节不变
-            vars[choice.param] = vars[choice.param] == undefined ? 1 : vars[choice.param] + 1
-            ret.output = choice.description
+        // 记录回合数: rounds
+        var roundsVar = "rounds"
+        if (variables.indexOf(roundsVar) != -1) {
+            vars[roundsVar] = vars[roundsVar] == undefined ? 0 : vars[roundsVar] + 1
             ret.variables = vars
-        } else if (choice.action == "decr") {
-            // 变量减少，章节不变
-            vars[choice.param] = vars[choice.param] == undefined ? 0 : vars[choice.param] - 1
-            ret.output = choice.description
-            ret.variables = vars
-        } else if (choice.action == "reset") {
-            ret.chapter = "1.1"
-            ret.variables = {}
-        } else {
-            console.log("choice action exception")
-            ret.output = "行为配置异常，游戏树崩塌"
         }
+        // 执行该选项的行动
+        var execute = function (choice) {
+            var varChanged = false
+            if (choice.action == "goto") {
+                // 章节推进
+                ret.chapter = choice.param
+            } else if (choice.action == "none") {
+                // 章节不变
+                ret.output = choice.description
+            } else if (choice.action == "incr") {
+                // 变量增加，章节不变
+                varChanged = true
+                vars[choice.param] = vars[choice.param] == undefined ? 1 : vars[choice.param] + 1
+                ret.output = choice.description
+                ret.variables = vars
+            } else if (choice.action == "decr") {
+                // 变量减少，章节不变
+                varChanged = true
+                vars[choice.param] = vars[choice.param] == undefined ? 0 : vars[choice.param] - 1
+                ret.output = choice.description
+                ret.variables = vars
+            } else if (choice.action == "calc") {
+                // 变量运算，章节不变
+                varChanged = true
+                // 要对哪个变量做运算
+                var varName = ""
+                variables.forEach(element => {
+                    if (choice.param.indexOf(element) != -1) {
+                        varName = element
+                    }
+                })
+                if (varName != "") {
+                    vars[varName] = vars[varName] == undefined ? 0 : vars[varName]
+                    var cmdSeq = ""
+                    cmdSeq += "var " + varName + " = " + vars[varName] + "\n"
+                    cmdSeq += choice.param
+                    vars[varName] = eval(cmdSeq)
+                }
+                ret.output = choice.description
+                ret.variables = vars
+            } else if (choice.action == "reset") {
+                // 重置章节到开头，清空变量环境
+                ret.chapter = "1.1"
+                ret.variables = {}
+            } else {
+                console.log("choice action exception")
+                ret.output = "行为配置异常，游戏树崩塌"
+            }
+            return varChanged
+        }
+        execute(choice)
         // 匹配动态条件
         // phase 0: 过滤章节条件
         var found = false
@@ -98,26 +132,7 @@ function proceed(stage, input, chapter, vars) {
         }
         // 执行动态条件
         // 注意: 执行 incr、decr 这两种反过来又影响了变量的条件行为时，可以改写代码，来允许再次推导动态条件。但这可能引起死循环。
-        if (dynamics[targetDynamic].action == "goto") {
-            // 章节推进
-            ret.chapter = dynamics[targetDynamic].param
-        } else if (dynamics[targetDynamic].action == "none") {
-            // 章节不变
-            ret.output = dynamics[targetDynamic].description
-        } else if (dynamics[targetDynamic].action == "incr") {
-            // 变量增加，章节不变
-            vars[dynamics[targetDynamic].param] = vars[dynamics[targetDynamic].param] == undefined ? 1 : vars[dynamics[targetDynamic].param] + 1
-            ret.output = dynamics[targetDynamic].description
-            ret.variables = vars
-        } else if (dynamics[targetDynamic].action == "decr") {
-            // 变量减少，章节不变
-            vars[dynamics[targetDynamic].param] = vars[dynamics[targetDynamic].param] == undefined ? 0 : vars[dynamics[targetDynamic].param] - 1
-            ret.output = dynamics[targetDynamic].description
-            ret.variables = vars
-        } else {
-            console.log("dynamic action exception")
-            ret.output = "动态条件配置异常，游戏树崩塌"
-        }
+        execute(dynamics[targetDynamic])
         return ret
     }
     // 查找剧情选项
