@@ -1,7 +1,7 @@
 title: 科兴大冒险
 msgtype: markdown
 # 变量: 可以记录某些变量的值、动态触发某些章节
-variables: [work, hobby, love]
+variables: [rounds, work, hobby, love]
 # 舞台: 由不定数量的章节组成游戏本体
 stages:
   "1.1":
@@ -15,7 +15,7 @@ stages:
       - keywords: [查看, 打开, 消息]
       # 描述: 若选项行为没有触发章节跳转，则显示描述消息
         description: 
-      # 行为: goto、none、incr、decr，分别是章节跳转、无、变量自增、变量自减
+      # 行为: goto、none、incr、decr、calc，分别是章节跳转、无、变量自增、变量自减、变量运算
         action: goto
       # 行为参数
         param: "10.1"
@@ -26,8 +26,8 @@ stages:
         description: |-
           > @sender，由于你努力的编写代码，福报值+1
           > 当前福报值: @work
-        action: incr
-        param: work
+        action: calc
+        param: work + 2
       - keywords: [摔, 白眼, 睡觉, 困, 趴, 休息]
         description: "> @sender，可以看得出，你的思路已经开始混乱了。于是你拿起桌边的咖啡，喝了一口，感觉提神多了～"
         action: none
