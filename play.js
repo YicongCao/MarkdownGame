@@ -54,51 +54,68 @@ function proceed(stage, input, chapter, vars) {
         // 执行该选项的行动
         var execute = function (choice) {
             var varChanged = false
-            if (choice.action == "goto") {
-                // 章节推进
-                ret.chapter = choice.param
-            } else if (choice.action == "none") {
-                // 章节不变
-                ret.output = choice.description
-            } else if (choice.action == "incr") {
-                // 变量增加，章节不变
-                varChanged = true
-                vars[choice.param] = vars[choice.param] == undefined ? 1 : vars[choice.param] + 1
-                ret.output = choice.description
-                ret.variables = vars
-            } else if (choice.action == "decr") {
-                // 变量减少，章节不变
-                varChanged = true
-                vars[choice.param] = vars[choice.param] == undefined ? 0 : vars[choice.param] - 1
-                ret.output = choice.description
-                ret.variables = vars
-            } else if (choice.action == "calc") {
-                // 变量运算，章节不变
-                varChanged = true
-                // 要对哪个变量做运算
-                var varName = ""
-                variables.forEach(element => {
-                    if (choice.param.indexOf(element) != -1) {
-                        varName = element
-                    }
-                })
-                if (varName != "") {
-                    vars[varName] = vars[varName] == undefined ? 0 : vars[varName]
-                    var cmdSeq = ""
-                    cmdSeq += "var " + varName + " = " + vars[varName] + "\n"
-                    cmdSeq += choice.param
-                    vars[varName] = eval(cmdSeq)
-                }
-                ret.output = choice.description
-                ret.variables = vars
-            } else if (choice.action == "reset") {
-                // 重置章节到开头，清空变量环境
-                ret.chapter = "1.1"
-                ret.variables = {}
+            // action 可以是 list(一组动作)、string(单个动作)
+            // param 的类型和长度要和 action 保持一致
+            var actionSet, paramSet
+            if (typeof choice.action == "string") {
+                actionSet = [choice.action]
+                paramSet = [String(choice.param)]
+            } else if (typeof choice.action == "object" &&
+                choice.action instanceof Array == true) {
+                actionSet = choice.action
+                paramSet = choice.param
             } else {
                 console.log("choice action exception")
-                ret.output = "行为配置异常，游戏树崩塌"
+                return varChanged
             }
+            // 执行
+            actionSet.forEach((action, index) => {
+                if (action == "goto") {
+                    // 章节推进
+                    ret.chapter = String(paramSet[index])
+                } else if (action == "none") {
+                    // 章节不变
+                    ret.output = choice.description
+                } else if (action == "incr") {
+                    // 变量增加，章节不变
+                    varChanged = true
+                    vars[paramSet[index]] = vars[paramSet[index]] == undefined ? 1 : vars[paramSet[index]] + 1
+                    ret.output = choice.description
+                    ret.variables = vars
+                } else if (action == "decr") {
+                    // 变量减少，章节不变
+                    varChanged = true
+                    vars[paramSet[index]] = vars[paramSet[index]] == undefined ? 0 : vars[paramSet[index]] - 1
+                    ret.output = choice.description
+                    ret.variables = vars
+                } else if (action == "calc") {
+                    // 变量运算，章节不变
+                    varChanged = true
+                    // 要对哪个变量做运算
+                    var varName = ""
+                    variables.forEach(element => {
+                        if (paramSet[index].indexOf(element) != -1) {
+                            varName = element
+                        }
+                    })
+                    if (varName != "") {
+                        vars[varName] = vars[varName] == undefined ? 0 : vars[varName]
+                        var cmdSeq = ""
+                        cmdSeq += "var " + varName + " = " + vars[varName] + "\n"
+                        cmdSeq += paramSet[index]
+                        vars[varName] = eval(cmdSeq)
+                    }
+                    ret.output = choice.description
+                    ret.variables = vars
+                } else if (action == "reset") {
+                    // 重置章节到开头，清空变量环境
+                    ret.chapter = "1.1"
+                    ret.variables = {}
+                } else {
+                    console.log("choice action exception")
+                    ret.output = "行为配置异常，游戏树崩塌"
+                }
+            })
             return varChanged
         }
         execute(choice)
