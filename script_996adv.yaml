@@ -1,0 +1,91 @@
+title: 科兴大冒险
+msgtype: markdown
+# 变量: 可以记录某些变量的值、动态触发某些章节
+variables: [rounds, work, hobby, love]
+# 舞台: 由不定数量的章节组成游戏本体
+stages:
+  "1.1":
+    # 章节名称，会显示在消息标题的位置
+    chapter: 序章
+    # 本节剧情
+    story: "> @sender，欢迎来到`@title`，你将扮演一个程序猿，现在时间是晚上11:00，你还有两个bug没写完，此时产品经理发来一条消息…"
+    # 输入选项: 关键词匹配，用户输入若含有该词，视为选择了此选项
+    choices:
+      # 关键词
+      - keywords: [查看, 打开, 消息]
+      # 描述: 若选项行为没有触发章节跳转，则显示描述消息
+        description: 
+      # 行为: goto、none、incr、decr、calc，分别是章节跳转、无、变量自增、变量自减、变量运算
+        action: goto
+      # 行为参数
+        param: "10.1"
+      - keywords: [回家, 家]
+        description: "> @sender，你的`福报`还没修满，不能回家"
+        action: none
+      - keywords: [代码, 程序, 写, 继续, 忽略]
+        description: |-
+          > @sender，由于你努力的编写代码，福报值+1
+          > 当前福报值: @work
+        action: calc
+        param: work + 2
+      - keywords: [摔, 白眼, 睡觉, 困, 趴, 休息]
+        description: "> @sender，可以看得出，你的思路已经开始混乱了。于是你拿起桌边的咖啡，喝了一口，感觉提神多了～"
+        action: none
+      - keywords: [提示, hint]
+        description: |-
+          提示: @sender，你可以作出如下选择
+          > **回家**: 你已经厌倦了加班，决心放弃工作，回去陪家人
+          > **继续写代码**: 此时专注最重要，忽略PM，继续编织美丽的代码
+          > **休息一下**: 既然已经被打断，不如休息一下，再继续工作
+          > **打开消息**: 看一下[哔]的产品经理究竟说了什么
+        action: none
+  "10.1":
+    chapter: 结局
+    story: |-
+      > 天亮了，@sender，揉了揉眼睛，打卡下班了～
+      > 拖着疲惫的身躯，回到家里睡了一觉
+    choices:
+      - keywords: [退出, 结束]
+        description: "> 游戏已经结束，您可以选择重置游戏"
+        action: none
+  "10.2":
+    chapter: 结局
+    story: |-
+      > 由于过度劳累，@sender，很不幸地倒在了工作岗位上
+      > 桌上摆着家人聚餐的相框里，仿佛映出了泪光
+    choices: {}
+# 动态条件: 输入选项结算后，会检查动态条件，若条件成立，则执行操作
+dynamics:
+  - conditions:
+      chapter: "1.*"
+      expression: work >= 5
+    action: goto
+    param: "10.2"
+# 默认区: 当用户输入没有命中章节内所覆盖的选项时，走到这里
+defaults:
+  # 条件: 满足章节条件或关键词条件，则触发该默认行为
+  - conditions:
+      chapter: "*"
+      keywords: [help, man, 帮助]
+    action: none
+    description: |-
+      欢迎来到`@title`，这是一个`文字冒险游戏`，你通过输入`动作`或`指令`来推进剧情、获取帮助。这个游戏讲述的是发生在科兴科学园的深夜加班故事，也许你就是这个故事的见证者，见证无数互联网人的苦乐悲欢。希望这个游戏能为加班一族带来些许快乐。
+      游戏基本操作如下: 
+      > **继续游戏**: 直接@我即可
+      > **开始游戏**: start
+      > **帮助**: help、man
+      > **提示**: hint
+      > **重置**: reset
+      > **排行榜**: rank、score
+  - conditions:
+      chapter: "*"
+      keywords: [reset, start, 重置, 回到开始, 重新开始, 开始游戏]
+    action: reset
+    description: |-
+      > 重置章节
+  - conditions:
+      chapter: "*"
+      keywords: []
+    action: none
+    description: |-
+      > 抱歉，我听不懂你说的话
