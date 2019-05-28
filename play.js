@@ -101,8 +101,9 @@ function proceed(stage, input, chapter, vars) {
                     if (varName != "") {
                         vars[varName] = vars[varName] == undefined ? 0 : vars[varName]
                         var cmdSeq = ""
-                        cmdSeq += "var " + varName + " = " + vars[varName] + "\n"
+                        cmdSeq += "var " + varName + " = " + vars[varName] + ";\n"
                         cmdSeq += paramSet[index]
+                        console.log("cmdSeq:", cmdSeq)
                         vars[varName] = eval(cmdSeq)
                     }
                     ret.output = choice.description
@@ -133,7 +134,7 @@ function proceed(stage, input, chapter, vars) {
         // phase 1: 生成变量环境
         var cmdLine = ""
         variables.forEach(element => {
-            cmdLine += "var " + element + " = " + ret.variables[element] + "\n"
+            cmdLine += "var " + element + " = " + ret.variables[element] + ";\n"
         })
         // phase 2: 执行检查条件
         var targetDynamic = -1
