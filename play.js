@@ -103,7 +103,7 @@ function proceed(stage, input, chapter, vars) {
                         var cmdSeq = ""
                         cmdSeq += "var " + varName + " = " + vars[varName] + ";\n"
                         cmdSeq += paramSet[index]
-                        console.log("cmdSeq:", cmdSeq)
+                        // console.log("cmdSeq:", cmdSeq)
                         vars[varName] = eval(cmdSeq)
                     }
                     ret.output = choice.description
@@ -139,7 +139,9 @@ function proceed(stage, input, chapter, vars) {
         // phase 2: 执行检查条件
         var targetDynamic = -1
         dynamics.forEach((dynamic, i) => {
+            // console.log("dynamicSeq:", cmdLine + dynamic.conditions.expression)
             var bool = eval(cmdLine + dynamic.conditions.expression)
+            // console.log("result:", bool)
             // 确保最后选中最先匹配到的条件
             if (bool && targetDynamic == -1) {
                 targetDynamic = i
