@@ -855,7 +855,7 @@ dynamics:
     param: ["3.8", "used1"]
   - conditions:
       chapter: "3.*"
-      expression: proof2 >= 7 || round2 >= 10 && used3 == 0
+      expression: (proof2 >= 7 || round2 >= 10) && used3 == 0
     action: [goto, incr]
     param: ["3.10", "used3"]
   - conditions:
