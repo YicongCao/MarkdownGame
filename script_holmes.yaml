@@ -305,11 +305,11 @@ stages:
       - **继续微笑**
       - **打他一拳**
     choices:
-      - keywords: [继续, 微笑, open]
+      - keywords: [继续, 微笑, smile]
         description: ""
         action: goto
         param: "2.4"
-      - keywords: [没, 不, 假装, 闭, close]
+      - keywords: [打, 拳, 他, hit]
         description: ""
         action: goto
         param: "2.5"
@@ -398,8 +398,8 @@ dynamics:
   - conditions:
       chapter: "*"
       expression: round1 > 3 && proof1 >= 2
-    action: goto
-    param: "1.8"
+    action: [goto, calc, calc]
+    param: ["1.8", "round1?0:0", "proof1?0:0"]
 defaults:
   - conditions:
       chapter: "*"
@@ -432,4 +432,8 @@ defaults:
       chapter: "*"
       keywords: []
     action: none
-    description: "> 福尔摩斯愣了一下，感觉自己像个被傻几操控的提线布偶🌚🌝"
+    description: |-
+      > 福尔摩斯愣了一下，感觉自己像个被傻几操控的提线布偶🌚🌝
+
+      @sender，请@我，输入“帮助”以获取游玩方法:
+      - **帮助**
