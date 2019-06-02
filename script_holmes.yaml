@@ -1,7 +1,32 @@
 title: 福尔摩斯探案之斑点带子案
 msgtype: markdown
 variables:
-  [rounds, health, love, proof1, round1, proof2, round2, used1, used2, used3]
+  [
+    rounds,
+    health,
+    love,
+    proof1,
+    round1,
+    proof2,
+    round2,
+    used1,
+    used2,
+    used3,
+    clues1,
+    clues2,
+  ]
+constants:
+  img1_1: "![PIC](https://www.baidu.com/img/baidu_resultlogo@2.png)"
+  clue1_1: 宅子的布局：[继父的、姐姐的、你以前的]
+  clue1_2: 你姐姐遇害前听到了口哨声和金属哐啷声
+  clue1_3: 暴风雨夜你姐姐遇害时看到的那条带斑点的带子
+  clue2_1: 悬着铃绳但是不响的铃铛
+  clue2_2: 朝向继父房间的通气孔
+  clue2_3: 质感厚重的毯子
+  clue2_4: 被钉死在铃绳旁边的床
+  clue2_5: 金属保险柜
+  clue2_6: 放在保险柜上的一小碟奶
+  clue2_7: 角落里打结的鞭子
 stages:
   "1.1":
     chapter: 楔子
@@ -17,7 +42,7 @@ stages:
       - keywords: [继续, 下一步, jixu, continue, next]
         description: ""
         action: [goto, calc, calc]
-        param: ["1.2", "health+10", "love+10"]
+        param: ["1.2", "health?10:10", "love?10:10"]
   "1.2":
     chapter: 楔子
     story: |-
@@ -150,8 +175,8 @@ stages:
     choices:
       - keywords: [继续, 下一步, jixu, continue, next]
         description: ""
-        action: [goto, calc, calc]
-        param: ["1.7", "round1?round1:0", "proof1?proof1:0"]
+        action: [goto, calc, calc, calc]
+        param: ["1.7", "round1?0:0", "proof1?0:0", 'clues1?"":""']
   "1.7":
     chapter: 讲述
     story: |-
@@ -162,6 +187,8 @@ stages:
       - **宅子的布局**
       - **姐姐死前做的事**
       - **警察的结论**
+      同时，你还能查看已收集的线索:
+      - **查看线索**
     choices:
       - keywords: [母亲, 遗产, 数额, 遗嘱, 英镑, 钱]
         description: |-
@@ -174,6 +201,8 @@ stages:
           - **宅子的布局**
           - **姐姐死前做的事**
           - **警察的结论**
+          同时，你还能查看已收集的线索:
+          - **查看线索**
         action: [incr]
         param: [round1]
       - keywords: [宅, 房, 屋, 布局, 位置, 方位]
@@ -188,8 +217,10 @@ stages:
           - **宅子的布局**
           - **姐姐死前做的事**
           - **警察的结论**
-        action: [incr, incr]
-        param: [round1, proof1]
+          同时，你还能查看已收集的线索:
+          - **查看线索**
+        action: [incr, incr, calc]
+        param: [round1, proof1, 'clues1==""?clue1_1:clues1+"、"+clue1_1']
       - keywords: [姐姐, 死]
         description: |-
           > “姐姐遇害那天晚上，她来我房间讲述了即将举行的婚礼。到了11点钟，她起身回自己房间，但走到门口时她突然担心地问我”，斯托纳小姐说，“她说，‘海伦，夜深人静的时候，你听到过有人吹口哨吗？’”
@@ -205,8 +236,8 @@ stages:
           - **警察的结论**
           你有一个`新的`提问选项:
           - **有关口哨声**
-        action: [incr, incr]
-        param: [round1, proof1]
+        action: [incr, incr, calc]
+        param: [round1, proof1, 'clues1==""?clue1_2:clues1+"、"+clue1_2']
       - keywords: [警, 验尸官, 调查, 疑点, 结论]
         description: |-
           > “由于我继父在郡里臭名昭著，警察和验尸官都非常认真的调查了这个案子。但是他们找不到任何能让人信服的死因。”斯托纳小姐无奈的说道，“警察敲过墙壁，四周很坚固，发生意外时姐姐也确认独自在房间里，身上也没有暴力痕迹。”
@@ -218,6 +249,8 @@ stages:
           - **宅子的布局**
           - **姐姐死前做的事**
           - **警察的结论**
+          同时，你还能查看已收集的线索:
+          - **查看线索**
         action: [incr]
         param: [round1]
       - keywords: [口哨, 声, 吹, 哨]
@@ -232,12 +265,25 @@ stages:
           - **宅子的布局**
           - **姐姐死前做的事**
           - **警察的结论**
-        action: [incr, incr]
-        param: [round1, proof1]
+          同时，你还能查看已收集的线索:
+          - **查看线索**
+        action: [incr, incr, calc]
+        param: [round1, proof1, 'clues1==""?clue1_3:clues1+"、"+clue1_3']
+      - keywords: [查看, 检查, 查, 收集, 线索, view, inspect]
+        description: |-
+          > 已收集的线索: `@clues1`
+          > 当前回合数: @round1，当前线索数: @proof1
+
+          @sender，请继续提问:
+          - **母亲遗产的数额**
+          - **宅子的布局**
+          - **姐姐死前做的事**
+          - **警察的结论**
+        action: none
   "1.8":
     chapter: 讲述
     story: |-
-      > 福尔摩斯总结道：“我们梳理一下关键线索。宅子的布局：继父、姐姐、你；你姐姐遇害前听到了`口哨声`和金属`哐啷`声；以及那条暴风雨夜你姐姐遇害时看到的那条带`斑点`的带子。你的思路很清楚，请继续讲述。”
+      > 福尔摩斯总结道：“我们梳理一下关键线索: @clues1。你的思路很清楚，请继续讲述。”
       > 斯托纳小姐继续说：“最近我也要结婚了，两天前这所房子突然开始修缮。我的卧室被钻出破洞，不得不搬到姐姐丧命的房间里居住。就在昨晚，在我回想姐姐可怕的遭遇时，突然听到了相同的口哨声。我吓得魂不附体，天一亮就来找您了。”
 
       @sender，请输入“继续”阅读下一节剧情: 
@@ -357,7 +403,7 @@ stages:
     choices:
       - keywords: [继续, 下一步, jixu, continue, next]
         description: "> 目前只做完了前两章哟～"
-        action: [goto, calc, calc, calc, calc, calc]
+        action: [goto, calc, calc, calc, calc, calc, calc]
         param:
           [
             "3.2",
@@ -366,6 +412,7 @@ stages:
             "used3?0:0",
             "proof2?0:0",
             "round2?0:0",
+            'clues2?"":""',
           ]
   "3.2":
     chapter: 调查
@@ -416,6 +463,8 @@ stages:
       - **A**: 斯托纳小姐过去的房间
       - **B**: 她姐姐死去的房间，也是她现在住的房间
       - **C**: 罗伊洛特医生的房间
+      同时，你还能查看已收集的线索:
+      - **查看线索**
     choices:
       - keywords: [A, a, 斯托纳, 小姐]
         description: ""
@@ -429,6 +478,16 @@ stages:
         description: ""
         action: goto
         param: "3.7"
+      - keywords: [查看, 检查, 查, 收集, 线索, view, inspect]
+        description: |-
+          > 已收集的线索: `@clues2`
+          > 当前回合数: `@round2/10`，当前线索数: `@proof2/10`
+
+          @sender，请选择要检查的房间:
+          - **A**: 斯托纳小姐过去的房间
+          - **B**: 她姐姐死去的房间，也是她现在住的房间
+          - **C**: 罗伊洛特医生的房间
+        action: none
   "3.5":
     chapter: 斯托纳的房间
     story: |-
@@ -441,6 +500,7 @@ stages:
       - 检查**吊灯**
       - 检查**炉子**
       - 检查**百叶窗**
+      - <font color="warning">查看</font>**线索**
       - <font color="warning">返回</font>**走廊**
     choices:
       - keywords: [返回, 后退, 走廊, 上一级, 离开, back, hall]
@@ -457,6 +517,7 @@ stages:
           - 检查**吊灯**
           - 检查**炉子**
           - 检查**百叶窗**
+          - <font color="warning">查看</font>**线索**
           - <font color="warning">返回</font>**走廊**
         action: [incr]
         param: [round2]
@@ -470,6 +531,7 @@ stages:
           - 检查**吊灯**
           - 检查**炉子**
           - 检查**百叶窗**
+          - <font color="warning">查看</font>**线索**
           - <font color="warning">返回</font>**走廊**
         action: [incr]
         param: [round2]
@@ -483,9 +545,21 @@ stages:
           - 检查**吊灯**
           - 检查**炉子**
           - 检查**百叶窗**
+          - <font color="warning">查看</font>**线索**
           - <font color="warning">返回</font>**走廊**
         action: [incr]
         param: [round2]
+      - keywords: [查看, 检查, 查, 收集, 线索, view, inspect]
+        description: |-
+          > 已收集的线索: `@clues2`
+          > 当前回合数: `@round2/10`，当前线索数: `@proof2/10`
+
+          @sender，请选择要检查或进行的动作:
+          - 检查**吊灯**
+          - 检查**炉子**
+          - 检查**百叶窗**
+          - <font color="warning">返回</font>**走廊**
+        action: none
   "3.6":
     chapter: 姐姐的房间
     story: |-
@@ -500,6 +574,7 @@ stages:
       - 检查**地毯**
       - 检查**橱柜**
       - 检查**床**
+      - <font color="warning">查看</font>**线索**
       - <font color="warning">返回</font>**走廊**
     choices:
       - keywords: [返回, 后退, 走廊, 上一级, 离开, back, hall]
@@ -518,11 +593,12 @@ stages:
           - 检查**地毯**
           - 检查**橱柜**
           - 检查**床**
+          - <font color="warning">查看</font>**线索**
           - <font color="warning">返回</font>**走廊**
           你有一个`新的`提问选项:
           - 检查**通气孔**
-        action: [incr, incr]
-        param: [round2, proof2]
+        action: [incr, incr, calc]
+        param: [round2, proof2, 'clues2==""?clue2_1:clues2+"、"+clue2_1']
       - keywords: [通气孔, 孔, 小孔, 洞, hool]
         description: |-
           > “非常奇怪！”福尔摩斯拉着铃绳喃喃地说，“这个房间有两个十分特别的地方，一个是不响的铃铛，另一个是朝向隔壁的`通气孔`；花费同样的功夫，就能让它通向户外的。”
@@ -535,9 +611,10 @@ stages:
           - 检查**地毯**
           - 检查**橱柜**
           - 检查**床**
+          - <font color="warning">查看</font>**线索**
           - <font color="warning">返回</font>**走廊**
-        action: [incr, incr]
-        param: [round2, proof2]
+        action: [incr, incr, calc]
+        param: [round2, proof2, 'clues2==""?clue2_2:clues2+"、"+clue2_2']
       - keywords: [地毯, 毯, 布, kindle]
         description: |-
           > 这块褐色的地毯毛绒很厚，踩在上面非常舒服。如果是细小的东西落在地毯上，或是一只小虫，都`很难发现`。
@@ -550,9 +627,10 @@ stages:
           - 检查**地毯**
           - 检查**橱柜**
           - 检查**床**
+          - <font color="warning">查看</font>**线索**
           - <font color="warning">返回</font>**走廊**
-        action: [incr, incr]
-        param: [round2, proof2]
+        action: [incr, incr, calc]
+        param: [round2, proof2, 'clues2==""?clue2_3:clues2+"、"+clue2_3']
       - keywords: [床, 铺盖, 被子, bed]
         description: |-
           > 看起来是一张很普通的床，只是有点窄。但福尔摩斯尝试移动这张床，却发现推不动。仔细一看，这张床被螺钉`固定`再了地板上。
@@ -565,9 +643,10 @@ stages:
           - 检查**地毯**
           - 检查**橱柜**
           - 检查**床**
+          - <font color="warning">查看</font>**线索**
           - <font color="warning">返回</font>**走廊**
-        action: [incr, incr]
-        param: [round2, proof2]
+        action: [incr, incr, calc]
+        param: [round2, proof2, 'clues2==""?clue2_4:clues2+"、"+clue2_4']
       - keywords: [橱柜, 柜, 橱, bed]
         description: |-
           > 福尔摩斯打开柜子，里面都是女人日常用的东西，看不出什么异常。
@@ -579,9 +658,22 @@ stages:
           - 检查**地毯**
           - 检查**橱柜**
           - 检查**床**
+          - <font color="warning">查看</font>**线索**
           - <font color="warning">返回</font>**走廊**
         action: [incr]
         param: [round2]
+      - keywords: [查看, 检查, 查, 收集, 线索, view, inspect]
+        description: |-
+          > 已收集的线索: `@clues2`
+          > 当前回合数: `@round2/10`，当前线索数: `@proof2/10`
+
+          @sender，请选择要检查或进行的动作:
+          - 检查**铃铛**
+          - 检查**地毯**
+          - 检查**橱柜**
+          - 检查**床**
+          - <font color="warning">返回</font>**走廊**
+        action: none
   "3.7":
     chapter: 继父的房间
     story: |-
@@ -593,6 +685,7 @@ stages:
       - 检查**保险柜**
       - 检查**书架**
       - 检查**角落**
+      - <font color="warning">查看</font>**线索**
       - <font color="warning">返回</font>**走廊**
     choices:
       - keywords: [返回, 后退, 走廊, 上一级, 离开, back, hall]
@@ -613,11 +706,12 @@ stages:
           - 检查**保险柜**
           - 检查**书架**
           - 检查**角落**
+          - <font color="warning">查看</font>**线索**
           - <font color="warning">返回</font>**走廊**
           你有一个`新的`提问选项:
           - 检查**盛奶的碟子**
-        action: [incr, incr]
-        param: [round2, proof2]
+        action: [incr, incr, calc]
+        param: [round2, proof2, 'clues2==""?clue2_5:clues2+"、"+clue2_5']
       - keywords: [奶, 碟, 盘, hool]
         description: |-
           > “可是，我们家没养猫啊，我继父倒是有一只印度猎豹和狒狒”斯托纳小姐说。
@@ -629,9 +723,10 @@ stages:
           - 检查**保险柜**
           - 检查**书架**
           - 检查**角落**
+          - <font color="warning">查看</font>**线索**
           - <font color="warning">返回</font>**走廊**
-        action: [incr, incr]
-        param: [round2, proof2]
+        action: [incr, incr, calc]
+        param: [round2, proof2, 'clues2==""?clue2_6:clues2+"、"+clue2_6']
       - keywords: [书, 架, shelf]
         description: |-
           > 继父的书架上，摆的大多是技术性的书籍。
@@ -642,6 +737,7 @@ stages:
           - 检查**保险柜**
           - 检查**书架**
           - 检查**角落**
+          - <font color="warning">查看</font>**线索**
           - <font color="warning">返回</font>**走廊**
         action: [incr]
         param: [round2]
@@ -656,13 +752,26 @@ stages:
           - 检查**保险柜**
           - 检查**书架**
           - 检查**角落**
+          - <font color="warning">查看</font>**线索**
           - <font color="warning">返回</font>**走廊**
-        action: [incr, incr]
-        param: [round2, proof2]
+        action: [incr, incr, calc]
+        param: [round2, proof2, 'clues2==""?clue2_7:clues2+"、"+clue2_7']
+      - keywords: [查看, 检查, 查, 收集, 线索, view, inspect]
+        description: |-
+          > 已收集的线索: `@clues2`
+          > 当前回合数: `@round2/10`，当前线索数: `@proof2/10`
+
+          @sender，请选择要检查或进行的动作:
+          - 检查**吊灯**
+          - 检查**炉子**
+          - 检查**百叶窗**
+          - <font color="warning">返回</font>**走廊**
+        action: none
   "3.8":
     chapter: 调查
     story: |-
       > 福尔摩斯拼命思考着这`@proof2`条线索，感觉🧩拼图就快完整起来了。
+      > 当前线索: `@clues2`
 
       @sender，请问你知道真相了吗？
       - **我明白了**: 真相永远只有一个！
@@ -802,7 +911,7 @@ stages:
       @sender，请输入“继续”阅读下一节剧情: 
       - **继续**
     choices:
-      - keywords: [继续, 下一步, continue, next]
+      - keywords: [继续, 下一步, jixu, continue, next]
         description: ""
         action: goto
         param: "4.2"
@@ -816,7 +925,7 @@ stages:
       @sender，请输入“继续”阅读下一节剧情: 
       - **继续**
     choices:
-      - keywords: [继续, 下一步, continue, next]
+      - keywords: [继续, 下一步, jixu, continue, next]
         description: ""
         action: goto
         param: "4.3"
@@ -850,7 +959,7 @@ stages:
       @sender，请输入“继续”阅读下一节剧情: 
       - **继续**
     choices:
-      - keywords: [继续, 下一步, continue, next]
+      - keywords: [继续, 下一步, jixu, continue, next]
         description: ""
         action: goto
         param: "4.5"
@@ -882,7 +991,7 @@ stages:
       @sender，请输入“继续”阅读下一节剧情: 
       - **继续**
     choices:
-      - keywords: [继续, 下一步, continue, next]
+      - keywords: [继续, 下一步, jixu, continue, next]
         description: ""
         action: goto
         param: "4.8"
@@ -896,7 +1005,7 @@ stages:
       @sender，请输入“继续”阅读下一节剧情: 
       - **继续**
     choices:
-      - keywords: [继续, 下一步, continue, next]
+      - keywords: [继续, 下一步, jixu, continue, next]
         description: ""
         action: goto
         param: "4.9"
@@ -908,7 +1017,7 @@ stages:
       @sender，请输入“继续”阅读下一节剧情: 
       - **继续**
     choices:
-      - keywords: [继续, 下一步, continue, next]
+      - keywords: [继续, 下一步, jixu, continue, next]
         description: ""
         action: goto
         param: "4.9"
@@ -922,7 +1031,7 @@ stages:
       @sender，请输入“继续”阅读下一节剧情: 
       - **继续**
     choices:
-      - keywords: [继续, 下一步, continue, next]
+      - keywords: [继续, 下一步, jixu, continue, next]
         description: ""
         action: goto
         param: "4.10"
@@ -934,7 +1043,7 @@ stages:
       @sender，请输入“继续”阅读下一节剧情: 
       - **继续**
     choices:
-      - keywords: [继续, 下一步, continue, next]
+      - keywords: [继续, 下一步, jixu, continue, next]
         description: ""
         action: goto
         param: "4.11"
@@ -942,6 +1051,7 @@ stages:
     chapter: 致谢
     story: |-
       > 感谢您的游玩，请联系`@pixelcao`反馈游玩体验，欢迎拍砖🧱
+      > 回合数总计: @rounds
 
       @sender，您可以输入“重置”重新游玩: 
       - **重置**

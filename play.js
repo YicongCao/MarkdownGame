@@ -13,6 +13,9 @@ function displayCustom(stage, defmsg, player, vars) {
     Object.keys(vars).forEach(function (key) {
         defmsg = defmsg.replace("@" + key, vars[key])
     })
+    Object.keys(script.constants).forEach(function (key) {
+        defmsg = defmsg.replace("@" + key, script.constants[key])
+    })
     var template = '#### [title]\n[story]\n'
     var output = template.replace("[title]", stage == undefined ? "未知章节" : stage.chapter).replace("[story]", defmsg)
     return output
@@ -50,6 +53,22 @@ function proceed(stage, input, chapter, vars) {
         if (variables.indexOf(roundsVar) != -1) {
             vars[roundsVar] = vars[roundsVar] == undefined ? 0 : vars[roundsVar] + 1
             ret.variables = vars
+        }
+        // 动态执行代码
+        var evalEx = function (cmd) {
+            var cmdLines = []
+            // 因为需要初始化所有变量，所以要遍历整个变量声明列表
+            variables.forEach(element => {
+                cmdLines.push("var " + element + " = " + JSON.stringify(ret.variables[element]))
+            })
+            // 常量
+            Object.keys(script.constants).forEach((key) => {
+                cmdLines.push("var " + key + " = " + JSON.stringify(script.constants[key]))
+            })
+            cmdLines.push(cmd)
+            var cmdCode = cmdLines.join(";\n")
+            // console.log("\n[evalex begin]\n", cmdCode, "\n[evalex end]\n")
+            return eval(cmdCode)
         }
         // 执行该选项的行动
         var execute = function (choice) {
@@ -99,12 +118,7 @@ function proceed(stage, input, chapter, vars) {
                         }
                     })
                     if (varName != "") {
-                        vars[varName] = vars[varName] == undefined ? 0 : vars[varName]
-                        var cmdSeq = ""
-                        cmdSeq += "var " + varName + " = " + vars[varName] + ";\n"
-                        cmdSeq += paramSet[index]
-                        // console.log("cmdSeq:", cmdSeq)
-                        vars[varName] = eval(cmdSeq)
+                        vars[varName] = evalEx(paramSet[index])
                     }
                     ret.output = choice.description
                     ret.variables = vars
@@ -134,14 +148,13 @@ function proceed(stage, input, chapter, vars) {
         // phase 1: 生成变量环境
         var cmdLine = ""
         variables.forEach(element => {
-            cmdLine += "var " + element + " = " + ret.variables[element] + ";\n"
+            cmdLine += "var " + element + " = " + JSON.stringify(ret.variables[element]) + ";\n"
+            // console.log("gen cmd:", cmdLine)
         })
         // phase 2: 执行检查条件
         var targetDynamic = -1
         dynamics.forEach((dynamic, i) => {
-            // console.log("dynamicSeq:", cmdLine + dynamic.conditions.expression)
-            var bool = eval(cmdLine + dynamic.conditions.expression)
-            // console.log("result:", bool)
+            var bool = evalEx(dynamic.conditions.expression)
             // 确保最后选中最先匹配到的条件
             if (bool && targetDynamic == -1) {
                 targetDynamic = i
