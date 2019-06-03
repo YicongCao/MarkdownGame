@@ -6,17 +6,18 @@ const path = require("path")
 const loadScript = require('./script_loader') // 使用 loader
 const save = require("./save_offline")
 const play = require("./play")
+const scriptHub = "https://github.com/YicongCao/MarkdownGame/tree/master/scripts"
 
 program
     .version("0.0.1", "-v, --version")
-    .option("-s, --script <剧本文件>", "指定剧本文件")
+    .option("-s, --script <剧本文件>", "指定剧本文件(剧本下载:<" + scriptHub + ">)")
     .option("-p, --profile <存档文件>", "指定存档文件(非必须,会自动创建)", "")
     .parse(process.argv);
 
 var scriptFileName = program.script
 var profileFileName = program.profile
 if (!scriptFileName || scriptFileName == "") {
-    console.error("必须指定一个剧本")
+    console.error("必须指定一个剧本\n剧本获取: " + scriptHub + "\n")
     return -1
 }
 
