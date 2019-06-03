@@ -132,9 +132,10 @@ function proceed(stage, input, chapter, vars) {
             })
             return varChanged
         }
+        // 执行选项
         execute(choice)
         // 匹配动态条件
-        // phase 0: 过滤章节条件
+        // phase 0: 检查章节条件
         var found = false
         dynamics.forEach((dynamic) => {
             if (chapterMatch(dynamic.conditions.chapter, ret.chapter)) {
@@ -144,13 +145,7 @@ function proceed(stage, input, chapter, vars) {
         if (!found) {
             return ret
         }
-        // phase 1: 生成变量环境
-        var cmdLine = ""
-        variables.forEach(element => {
-            cmdLine += "var " + element + " = " + JSON.stringify(ret.variables[element]) + ";\n"
-            // console.log("gen cmd:", cmdLine)
-        })
-        // phase 2: 执行检查条件
+        // phase 1: 检查动态条件
         var targetDynamic = -1
         dynamics.forEach((dynamic, i) => {
             var bool = evalEx(dynamic.conditions.expression)
@@ -163,7 +158,7 @@ function proceed(stage, input, chapter, vars) {
             return ret
         }
         // 执行动态条件
-        // 注意: 执行 incr、decr 这两种反过来又影响了变量的条件行为时，可以改写代码，来允许再次推导动态条件。但这可能引起死循环。
+        // 注意: 执行 incr、decr、calc 这两种反过来又影响了变量的条件行为时，可以改写代码，来允许再次推导动态条件。但这可能引起死循环。
         execute(dynamics[targetDynamic])
         return ret
     }
@@ -263,9 +258,3 @@ function play(input, profile, scriptObj) {
 }
 
 module.exports = play
-
-// console.log("\n" + play("1.1", "").output)
-// console.log("\n" + play("1.1", "回家").output)
-// console.log("\n" + play("1.1", "打开").output)
-// console.log("\n" + play("10.1", "重置").output)
-// console.log("\n" + play("10.1", "帮助").output)
