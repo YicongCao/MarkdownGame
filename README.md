@@ -1,6 +1,6 @@
-# 哈利波特与魔法石
+# Markdown 文字冒险
 
-欢迎来到**哈利波特与魔法石**，这是一个**文字冒险游戏**，你通过输入**动作**或**指令**来推进剧情、获取帮助。这个游戏讲述的是发生在科兴科学园的深夜加班故事，也许你就是这个故事的见证者，见证无数互联网人的苦乐悲欢。希望这个游戏能为加班一族带来些许快乐。
+这是一个**文字冒险游戏**引擎，可以通过输入**动作**或**指令**来推进剧情、获取帮助。
 
 游戏剧本完全使用`yaml`格式编写，你也可以定制自己的游戏剧情，尽情`fork`，创作更好玩的文字冒险游戏。
 
@@ -10,19 +10,22 @@
 
 ```bash
 npm install
-node game_offline.js
+node game_offline.js -s scripts/harrypotter.yaml  # 玩哈利波特与魔法石(第一章)
+node game_offline.js -s scripts/holmes.yaml       # 玩福尔摩斯(斑点带子案)
 ```
 
 ## 代码结构
 
 ```bash
-├── game_offline.js  # 进行游戏
-├── package.json
-├── play.js     # 对局逻辑
-├── save.js     # 存档逻辑
-├── script.yaml # 剧本
-├── script_export.js    # 剧本 yaml 转 json 的工具（可选）
-└── script_loader.js    # 加载 yaml 剧本的工具（默认）
+├── game_offline.js   # 离线游玩入口
+├── package.json      # 工程文件
+├── play.js           # 引擎
+├── save_offline.js   # 离线游玩存档
+├── script_loader.js  # 剧本加载器
+└── scripts           # 剧本存档目录
+    ├── 996adv.yaml
+    ├── harrypotter.yaml
+    └── holmes.yaml
 ```
 
 ## 游戏机制
