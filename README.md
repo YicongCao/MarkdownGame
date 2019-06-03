@@ -6,7 +6,7 @@
 
 ## 使用方法
 
-本包不包含剧本文件，示例剧本请从这里下载：<https://github.com/YicongCao/996Adventure/tree/master/scripts>
+本包不包含剧本文件，示例剧本请从这里下载：<https://github.com/YicongCao/MarkdownGame/tree/master/scripts>
 
 ```bash
 npm install -g mdgame

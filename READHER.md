@@ -61,7 +61,7 @@
 
 ### 1. 代码结构
 
-工蜂链接🔗：<https://git.code.oa.com/pixelcao/HarryPotter>
+Github链接🔗：<https://github.com/YicongCao/MarkdownGame>
 
 ```bash
 ├── game_offline.js  		# 进行游戏
