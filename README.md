@@ -6,10 +6,12 @@
 
 ## 使用方法
 
-准备一个 node.js 的运行环境，然后运行 `game_offline.js` 即可。
+本包不包含剧本文件，示例剧本请从这里下载：<https://github.com/YicongCao/996Adventure/tree/master/scripts>
 
 ```bash
 npm install -g mdgame
+mdgame -s <剧本文件路径>
+# 下载剧本后即可游玩
 mdgame -s scripts/harrypotter.yaml  # 玩哈利波特与魔法石(第一章)
 mdgame -s scripts/holmes.yaml       # 玩福尔摩斯(斑点带子案)
 ```
