@@ -1,0 +1,10 @@
+*.zip
+*.tgz
+.DS_STORE
+scripts/
+
+READHER.md
+assets/
+.eslintrc.yml
+game_online.js
+save_online.js

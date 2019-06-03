@@ -1,6 +1,8 @@
 # Custom
 save.yaml
 .eslintrc.yml
+*.zip
+*.tgz
 
 # Logs
 logs
