@@ -23,7 +23,7 @@ stages:
         description: ""
         # 行为: goto、none、incr、decr、calc，分别是章节跳转、无、变量自增、变量自减、变量运算
         action: [goto, calc]
-        param: ["1.2", "health+7"]
+        param: ["1.2", "health?7:7"]
   "1.2":
     chapter: 序章 悄悄消失的玻璃
     story: |-
@@ -181,24 +181,60 @@ stages:
       - **你幸福吗？**
     choices:
       - keywords: [理解, 知道, 是啊, "i understand", "used to it"]
-        description: "> “那一定让你也很烦。”巨蟒用力点点头。\n\n@sender，哈利心里一惊，巨蟒好像听得懂他的话，于是哈利接着问道…"
+        description: |-
+          > “那一定让你也很烦。”巨蟒用力点点头。
+
+          @sender，哈利心里一惊，巨蟒好像听得懂他的话，于是哈利接着问道…
+          - **我理解…**
+          - **你是谁？**
+          - **你来自哪里？**
+          - **你幸福吗？**
         action: incr
         param: qsnake
       - keywords: [你是, 是谁, 你谁, who]
-        description: "> “这还不够明显嘛，我是一条巨蟒🐍，这一带的程序员跟我很熟。”巨蟒回答说。\n\n@sender，哈利心里一惊，巨蟒好像懂得幽默，于是哈利接着问道…"
+        description: |-
+          > “这还不够明显嘛，我是一条巨蟒🐍，这一带的程序员跟我很熟。”巨蟒回答说。
+
+          @sender，哈利心里一惊，巨蟒好像懂得幽默，于是哈利接着问道…
+          - **我理解…**
+          - **你是谁？**
+          - **你来自哪里？**
+          - **你幸福吗？**
         action: incr
         param: qsnake
       - keywords: [哪里, 地方, 来自, 来的, 这里, 家, where, home, from]
-        description: "> 巨蟒甩着尾巴猛地拍了一下玻璃窗上的一块小牌子📜。哈利仔细看了一下：\n> `蟒蛇，巴西🇧🇷`\n\n@sender，哈利很好奇巨蟒平时的生活，于是继续问道…"
+        description: |-
+          > 巨蟒甩着尾巴猛地拍了一下玻璃窗上的一块小牌子📜。哈利仔细看了一下：
+          > `蟒蛇，巴西🇧🇷`
+
+          @sender，哈利很好奇巨蟒平时的生活，于是继续问道…
+          - **我理解…**
+          - **你是谁？**
+          - **你来自哪里？**
+          - **你幸福吗？**
         action: incr
         param: qsnake
       - keywords:
           [幸福, 生活, 快乐, 开心, 动物园, 喜欢, 您, happy, life, love, like]
-        description: "> “emmm，你来自中国🇨🇳吗？”巨蟒友善地讽刺哈利说。哈利仿佛能看到空气中地一个白眼🙄️\n\n@sender，哈利耐心的继续问道…"
+        description: |-
+          > “emmm，你来自中国🇨🇳吗？”巨蟒友善地讽刺哈利说。哈利仿佛能看到空气中地一个白眼🙄️
+
+          @sender，哈利耐心的继续问道…
+          - **我理解…**
+          - **你是谁？**
+          - **你来自哪里？**
+          - **你幸福吗？**
         action: incr
         param: qsnake
       - keywords: []
-        description: "> “你在胡言乱语些什么？”巨蟒友善地讽刺哈利说。哈利仿佛能看到空气中地一个白眼🙄️\n\n@sender，哈利耐心的继续问道…"
+        description: |-
+          > “你在胡言乱语些什么？”巨蟒友善地讽刺哈利说。哈利仿佛能看到空气中地一个白眼🙄️
+
+          @sender，哈利耐心的继续问道…
+          - **我理解…**
+          - **你是谁？**
+          - **你来自哪里？**
+          - **你幸福吗？**
         action: incr
         param: qsnake
   "1.9":
