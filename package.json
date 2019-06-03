@@ -1,13 +1,13 @@
 {
     "name": "mdgame",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "description": "Markdown文字冒险游戏",
     "main": "game_offline.js",
     "bin": {
-        "textgame": "game_offline",
-        "textadv": "game_offline",
-        "mdgame": "game_offline",
-        "mdadv": "game_offline"
+        "textgame": "game_offline.js",
+        "textadv": "game_offline.js",
+        "mdgame": "game_offline.js",
+        "mdadv": "game_offline.js"
     },
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1"

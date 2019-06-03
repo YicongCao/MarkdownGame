@@ -9,9 +9,9 @@
 准备一个 node.js 的运行环境，然后运行 `game_offline.js` 即可。
 
 ```bash
-npm install
-node game_offline.js -s scripts/harrypotter.yaml  # 玩哈利波特与魔法石(第一章)
-node game_offline.js -s scripts/holmes.yaml       # 玩福尔摩斯(斑点带子案)
+npm install -g mdgame
+mdgame -s scripts/harrypotter.yaml  # 玩哈利波特与魔法石(第一章)
+mdgame -s scripts/holmes.yaml       # 玩福尔摩斯(斑点带子案)
 ```
 
 ## 代码结构
