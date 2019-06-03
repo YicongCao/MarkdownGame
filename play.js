@@ -1,5 +1,4 @@
-const script = require('./script_loader') // 使用 loader
-// const script = require('./script') // 使用 导出成js的信息
+var script = undefined
 
 // 显示章节剧情
 function displayStage(stage, player, vars) {
@@ -218,7 +217,8 @@ function proceed(stage, input, chapter, vars) {
 }
 
 // 玩
-function play(input, profile) {
+function play(input, profile, scriptObj) {
+    script = scriptObj
     var chapter = profile.chapter
     var player = profile.player
     var vars = profile.variables

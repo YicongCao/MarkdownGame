@@ -1,24 +1,31 @@
 {
-    "name": "gamescript",
-    "version": "1.0.13",
-    "description": "bot sdk",
-    "main": "script.js",
+    "name": "mdgame",
+    "version": "1.0.1",
+    "description": "Markdown文字冒险游戏",
+    "main": "game_offline.js",
+    "bin": {
+        "textgame": "game_offline",
+        "textadv": "game_offline",
+        "mdgame": "game_offline",
+        "mdadv": "game_offline"
+    },
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1"
     },
     "keywords": [
         "bot",
-        "game"
+        "game",
+        "markdown"
     ],
-    "author": "pixelcao pixelcao@tencent.com",
-    "license": "ISC",
+    "author": "yicongcao yicongcao@gmail.com",
+    "license": "MIT",
     "dependencies": {
+        "commander": "^2.20.0",
         "readline-sync": "^1.4.9",
         "request": "^2.88.0",
         "yamljs": "^0.3.0"
     },
     "devDependencies": {
-        "eslint": "^5.16.0",
-        "nock": "^10.0.6"
+        "eslint": "^5.16.0"
     }
 }

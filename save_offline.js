@@ -2,8 +2,8 @@ const fs = require('fs')
 const yaml = require('yamljs')
 const path = require('path')
 
-function loadFromDisk() {
-    var filename = path.join(__dirname, 'save.yaml')
+function loadFromDisk(fileName) {
+    var filename = path.join(path.resolve('./'), fileName)
     if (!fs.existsSync(filename)) {
         return undefined
     }
@@ -11,8 +11,9 @@ function loadFromDisk() {
     return sve
 }
 
-function saveToDisk(progress) {
-    fs.writeFileSync(path.join(__dirname, 'save.yaml'), yaml.stringify(progress))
+function saveToDisk(fileName, progress) {
+    // console.log("[DEBUG] saving to:", fileName)
+    fs.writeFileSync(path.join(path.resolve('./'), fileName), yaml.stringify(progress))
 }
 
 module.exports = {
