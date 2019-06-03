@@ -3,6 +3,7 @@ save.yaml
 .eslintrc.yml
 *.zip
 *.tgz
+*.save
 
 # Logs
 logs
