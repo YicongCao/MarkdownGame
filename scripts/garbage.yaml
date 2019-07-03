@@ -1,0 +1,262 @@
+title: 垃圾分类大冒险
+variables:
+  [rounds, validrounds, totalrounds, grams, totalgrams, score, details, used1]
+constants:
+  remark: 备注
+stages:
+  "1.1":
+    chapter: 规则讲解
+    story: |-
+      > 欢迎来到`@title`，这是一个`文字冒险游戏`，你通过输入`动作`或`指令`来推进剧情、获取帮助。
+      > 游戏规则是通过@bot，回复题目中的垃圾类型，完成挑战。整个挑战包括`5`道题，题库随机。
+      > 除了回复垃圾类型外，你还可以回复`help、hint、reset`等指令，来获取帮助、提升和重置进度。
+      > 群聊里的玩家可以`共同努力`💪，群策群力，取得好成绩💯
+      > 那么，让我们开始吧～
+
+      @sender，请输入“准备”进入答题环节:
+      **准备**
+    choices:
+      - keywords: [准备, 继续, ready, zhunbei, zb, jixu, next, go]
+        description: ""
+        action: [gotox, calc, calc, calc, calc, calc, calc]
+        param:
+          [
+            "Math.round(Math.random() * (3 - 1) + 1)",
+            "totalrounds?5:5",
+            "validrounds?1:1",
+            "grams?0:0",
+            "score?0:0",
+            "details?'':''",
+            "used1?0:0",
+          ]
+  "1.2":
+    chapter: 交卷吗
+    story: |-
+      > 长路漫漫，犹可期许，是时候检验成果啦
+      > 你已经答完`@totalrounds`道小题，本群的小伙伴们，辛苦啦💦
+
+      @sender，请输入“交卷”查看本群分数:
+      **交卷**
+    choices:
+      - keywords: [交卷, 继续, jixu, next, go, commit, push, jiaojuan]
+        description: ""
+        action: goto
+        param: 1.X
+  "1.X":
+    chapter: 放榜啦
+    story: |-
+      > 恭喜👏，本群的成绩是`@score`分
+      > 本次答题共收集🚮垃圾`@grams`克
+      > 目前大盘玩家🎮已收集垃圾共计`@totalgrams`克
+
+      结算明细:
+      @details
+
+      @sender，请输入“重置”来继续学习吧🌝
+      **重置**
+    choices: {}
+  "1":
+    chapter: 题目-1
+    story: |-
+      > @sender，请问`鸡蛋壳`属于？
+      > 答题进度: `@validrounds`/@totalrounds
+
+      测试分节: 
+      A **🧻干垃圾**
+      B **🍉湿垃圾**
+      C **🔋有害垃圾**
+      D **♻️可回收垃圾**
+    choices:
+      - keywords: [A, a, 干垃圾]
+        description: |-
+          > 回答错误🙅
+          > 鸡蛋壳应该是`湿垃圾`
+
+          @sender，请输入“继续”进入下一题: 
+          **继续**
+        action: [incr, calc]
+        param: ["validrounds", "details+='❎鸡蛋壳应该是`湿垃圾`\\n'"]
+      - keywords: [B, b, 湿垃圾]
+        description: ""
+        action: [gotox, incr, calc, calc, calc]
+        param:
+          [
+            "Math.round(Math.random() * (3 - 1) + 1)",
+            "validrounds",
+            "details+='✅鸡蛋壳应该是`湿垃圾`\\n'",
+            "score+(100/totalrounds)",
+            "grams+500",
+          ]
+      - keywords: [C, c, 有害, 有害垃圾]
+        description: |-
+          > 回答错误🙅
+          > 鸡蛋壳应该是`湿垃圾`
+
+          @sender，请输入“继续”进入下一题: 
+          **继续**
+        action: [incr, calc]
+        param: ["validrounds", "details+='❎鸡蛋壳应该是`湿垃圾`\\n'"]
+      - keywords: [D, d, 回收, 可回收垃圾]
+        description: |-
+          > 回答错误🙅
+          > 鸡蛋壳应该是`湿垃圾`
+
+          @sender，请输入“继续”进入下一题: 
+          **继续**
+        action: [incr, calc]
+        param: ["validrounds", "details+='❎鸡蛋壳应该是`湿垃圾`\\n'"]
+      - keywords: [继续, 下一步, continue, next, jixu]
+        description: ""
+        action: gotox
+        param: "Math.round(Math.random() * (3 - 1) + 1)"
+  "2":
+    chapter: 题目-2
+    story: |-
+      > @sender，请问`鸡蛋壳`属于？
+      > 答题进度: `@validrounds`/@totalrounds
+
+      测试分节: 
+      A **🧻干垃圾**
+      B **🍉湿垃圾**
+      C **🔋有害垃圾**
+      D **♻️可回收垃圾**
+    choices:
+      - keywords: [A, a, 干垃圾]
+        description: |-
+          > 回答错误🙅
+          > 鸡蛋壳应该是`湿垃圾`
+
+          @sender，请输入“继续”进入下一题: 
+          **继续**
+        action: [incr, calc]
+        param: ["validrounds", "details+='❎鸡蛋壳应该是`湿垃圾`\\n'"]
+      - keywords: [B, b, 湿垃圾]
+        description: ""
+        action: [gotox, incr, calc, calc, calc]
+        param:
+          [
+            "Math.round(Math.random() * (3 - 1) + 1)",
+            "validrounds",
+            "details+='✅鸡蛋壳应该是`湿垃圾`\\n'",
+            "score+(100/totalrounds)",
+            "grams+500",
+          ]
+      - keywords: [C, c, 有害, 有害垃圾]
+        description: |-
+          > 回答错误🙅
+          > 鸡蛋壳应该是`湿垃圾`
+
+          @sender，请输入“继续”进入下一题: 
+          **继续**
+        action: [incr, calc]
+        param: ["validrounds", "details+='❎鸡蛋壳应该是`湿垃圾`\\n'"]
+      - keywords: [D, d, 回收, 可回收垃圾]
+        description: |-
+          > 回答错误🙅
+          > 鸡蛋壳应该是`湿垃圾`
+
+          @sender，请输入“继续”进入下一题: 
+          **继续**
+        action: [incr, calc]
+        param: ["validrounds", "details+='❎鸡蛋壳应该是`湿垃圾`\\n'"]
+      - keywords: [继续, 下一步, continue, next, jixu]
+        description: ""
+        action: gotox
+        param: "Math.round(Math.random() * (3 - 1) + 1)"
+  "3":
+    chapter: 题目-3
+    story: |-
+      > @sender，请问`鸡蛋壳`属于？
+      > 答题进度: `@validrounds`/@totalrounds
+
+      测试分节: 
+      A **🧻干垃圾**
+      B **🍉湿垃圾**
+      C **🔋有害垃圾**
+      D **♻️可回收垃圾**
+    choices:
+      - keywords: [A, a, 干垃圾]
+        description: |-
+          > 回答错误🙅
+          > 鸡蛋壳应该是`湿垃圾`
+
+          @sender，请输入“继续”进入下一题: 
+          **继续**
+        action: [incr, calc]
+        param: ["validrounds", "details+='❎鸡蛋壳应该是`湿垃圾`\\n'"]
+      - keywords: [B, b, 湿垃圾]
+        description: ""
+        action: [gotox, incr, calc, calc, calc]
+        param:
+          [
+            "Math.round(Math.random() * (3 - 1) + 1)",
+            "validrounds",
+            "details+='✅鸡蛋壳应该是`湿垃圾`\\n'",
+            "score+(100/totalrounds)",
+            "grams+500",
+          ]
+      - keywords: [C, c, 有害, 有害垃圾]
+        description: |-
+          > 回答错误🙅
+          > 鸡蛋壳应该是`湿垃圾`
+
+          @sender，请输入“继续”进入下一题: 
+          **继续**
+        action: [incr, calc]
+        param: ["validrounds", "details+='❎鸡蛋壳应该是`湿垃圾`\\n'"]
+      - keywords: [D, d, 回收, 可回收垃圾]
+        description: |-
+          > 回答错误🙅
+          > 鸡蛋壳应该是`湿垃圾`
+
+          @sender，请输入“继续”进入下一题: 
+          **继续**
+        action: [incr, calc]
+        param: ["validrounds", "details+='❎鸡蛋壳应该是`湿垃圾`\\n'"]
+      - keywords: [继续, 下一步, continue, next, jixu]
+        description: ""
+        action: gotox
+        param: "Math.round(Math.random() * (3 - 1) + 1)"
+dynamics:
+  - conditions:
+      chapter: "*"
+      expression: validrounds > totalrounds && used1 == 0
+    action: [goto, calc, incr]
+    param:
+      [
+        "1.2",
+        "totalgrams?totalgrams:Math.round(Math.log((Date.now()-1562118616000))*250)",
+        "used1",
+      ]
+defaults:
+  - conditions:
+      chapter: "*"
+      keywords: [help, man, 帮助, 怎么玩, 你是谁]
+    action: none
+    description: |-
+      > 欢迎来到`@title`，这是一个`文字冒险游戏`，你通过输入`动作`或`指令`来推进剧情、获取帮助。
+      > 游戏规则是通过@bot，回复题目中的垃圾类型，完成挑战。整个挑战包括`5`道题，题库随机。
+      > 除了回复垃圾类型外，你还可以回复`help、hint、reset`等指令，来获取帮助、提升和重置进度。
+      > 群聊里的玩家可以`共同努力`💪，群策群力，取得好成绩💯
+
+      游戏基本操作如下: 
+      **继续游戏**: 直接@我即可
+      **开始游戏**: start
+      **帮助**: help、man
+      **提示**: hint
+      **重置**: reset
+  - conditions:
+      chapter: "*"
+      keywords: [hint, 提示]
+    action: none
+    description: "@sender，本小题没有提示😂"
+  - conditions:
+      chapter: "*"
+      keywords: [reset, start, 重置, 回到开始, 重新开始, 开始游戏]
+    action: reset
+    description: "重置章节"
+  - conditions:
+      chapter: "*"
+      keywords: []
+    action: none
+    description: "> 😯没听懂，请再说一遍，你是什么垃圾？"
