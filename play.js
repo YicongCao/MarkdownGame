@@ -21,6 +21,8 @@ function displayCustom(stage, defmsg, player, vars) {
 }
 
 // 判定相等
+// "1.1" == "1.1"
+// "2.2" == "2.*"
 function chapterMatch(template, compare) {
     if (template == undefined || template.trim() == "*") {
         return true
@@ -91,6 +93,9 @@ function proceed(stage, input, chapter, vars) {
                 if (action == "goto") {
                     // 章节推进
                     ret.chapter = String(paramSet[index])
+                } else if (action == "gotox") {
+                    var chapterNext = evalEx(paramSet[index])
+                    ret.chapter = String(chapterNext)
                 } else if (action == "none") {
                     // 章节不变
                     ret.output = choice.description

@@ -1,8 +1,8 @@
 {
     "name": "mdgame",
-    "version": "1.0.6",
+    "version": "1.1.0",
     "description": "Markdown文字冒险游戏",
-    "main": "game_offline.js",
+    "main": "play.js",
     "bin": {
         "textgame": "game_offline.js",
         "textadv": "game_offline.js",
