@@ -1,0 +1,2820 @@
+title: 哔哩哔哩入学考试
+variables:
+  [rounds, validrounds, totalrounds, grams, score, details, used1, lastone]
+constants:
+  remark: 备注
+stages:
+  "1.1":
+    chapter: 规则讲解
+    story: |-
+      > 欢迎来到`@title`，这是一个模拟哔哩哔哩入学考试的问答游戏✍️
+      > 
+      > 游戏规则是通过@bot，回复`A B C D`，完成挑战。整个挑战包括`5`道题，题库随机。
+      > 
+      > 除此之外，你还可以回复`help、hint、reset`等指令，来获取帮助、提升和重置进度。
+      > 
+      > 群聊里的玩家可以`共同努力`💪，群策群力，取得好成绩💯
+      > 
+      > 那么，让我们开始吧～
+
+      @sender，请输入“准备”进入答题环节:
+
+      **准备**
+    choices:
+      - keywords: [准备, 继续, ready, zhunbei, zb, jixu, next, go]
+        description: ""
+        action: [gotox, calc, calc, calc, calc, calc, calc, calc]
+        param:
+          [
+            "Math.round(Math.random() * (62 - 1) + 1)",
+            "totalrounds?5:5",
+            "validrounds?1:1",
+            "grams?0:0",
+            "score?0:0",
+            "details?'':''",
+            "used1?0:0",
+            "lastone?'':''",
+          ]
+  "1.2":
+    chapter: 交卷吗
+    story: |-
+      > 长路漫漫，犹可期许，是时候检验成果啦
+      > 
+      > 你已经答完`@totalrounds`道小题，本群的小伙伴们，辛苦啦💦
+
+      @sender，请输入“交卷”查看本群分数:
+
+      **交卷**
+    choices:
+      - keywords: [交卷, 继续, jixu, next, go, commit, push, jiaojuan]
+        description: ""
+        action: goto
+        param: 1.X
+  "1.A":
+    chapter: 放榜啦
+    story: |-
+      > 太棒了🎉，你群竟然拿了`@score`分
+      > 
+      > 你们就是哔哩哔哩的 KOL 👍
+
+      满分之路💯:
+
+      @details
+
+      @sender，请输入“重置”来继续学习吧🌝
+
+      **重置**
+    choices: {}
+  "1.B":
+    chapter: 放榜啦
+    story: |-
+      > 还不错😄，大家的分数是`@score`分
+      > 
+      > 再接再厉，争取成为更硬核的 KOL 🎮
+
+      结算明细📜:
+
+      @details
+
+      @sender，请输入“重置”来继续学习吧🌝
+
+      **重置**
+    choices: {}
+  "1.C":
+    chapter: 放榜啦
+    story: |-
+      > emmmmm，本群的得分是`@score`分
+      > 
+      > 可能二次元并不适合大家，不如重新学习一遍吧😵
+
+      错题本儿📙:
+
+      @details
+
+      @sender，请输入“重置”来继续学习吧🌝
+
+      **重置**
+    choices: {}
+  "1":
+    chapter: 哔哩哔哩入学考试
+    story: |-
+      @lastone> @sender，谁罪大滔天，搞到百姓怨声载道？
+      > 
+      > 答题进度: `@validrounds`/@totalrounds
+
+      选项: 
+
+      A.  🎤  索尼
+
+      B.  💃  微软
+
+      C.  🎵  苹果
+
+      D.  🏀  腾讯
+    choices:
+      - keywords: [a, 索尼]
+        description: ""
+        action: [gotox, incr, calc, calc, calc, calc]
+        param:
+          [
+            "Math.round(Math.random() * (62 - 1) + 1)",
+            "validrounds",
+            "details+='✅谁罪大滔天，搞到百姓怨声载道？答案是`索尼`\\n\\n'",
+            "score+(100/totalrounds)",
+            "grams+500",
+            "lastone=''",
+          ]
+      - keywords: [b, 微软, c, 苹果, d, 腾讯]
+        description: ""
+        action: [gotox, incr, calc, calc]
+        param:
+          [
+            "Math.round(Math.random() * (62 - 1) + 1)",
+            "validrounds",
+            "details+='❌谁罪大滔天，搞到百姓怨声载道？答案是`索尼`\\n\\n'",
+            "lastone='上一题纠错: 应该是`索尼`\\n\\n'",
+          ]
+      - keywords: [继续, 下一步, continue, next, jixu]
+        description: ""
+        action: gotox
+        param: "Math.round(Math.random() * (62 - 1) + 1)"
+  "2":
+    chapter: 哔哩哔哩入学考试
+    story: |-
+      @lastone> @sender，12年TV年度销量霸权是？
+      > 
+      > 答题进度: `@validrounds`/@totalrounds
+
+      选项: 
+
+      A.  🎤  柯南
+
+      B.  💃  伪物语
+
+      C.  🎵  蜡笔小新
+
+      D.  🏀  樱桃小丸子
+    choices:
+      - keywords: [b, 伪物语]
+        description: ""
+        action: [gotox, incr, calc, calc, calc, calc]
+        param:
+          [
+            "Math.round(Math.random() * (62 - 1) + 1)",
+            "validrounds",
+            "details+='✅12年TV年度销量霸权是？答案是`伪物语`\\n\\n'",
+            "score+(100/totalrounds)",
+            "grams+500",
+            "lastone=''",
+          ]
+      - keywords: [a, 柯南, c, 蜡笔小新, d, 樱桃小丸子]
+        description: ""
+        action: [gotox, incr, calc, calc]
+        param:
+          [
+            "Math.round(Math.random() * (62 - 1) + 1)",
+            "validrounds",
+            "details+='❌12年TV年度销量霸权是？答案是`伪物语`\\n\\n'",
+            "lastone='上一题纠错: 应该是`伪物语`\\n\\n'",
+          ]
+      - keywords: [继续, 下一步, continue, next, jixu]
+        description: ""
+        action: gotox
+        param: "Math.round(Math.random() * (62 - 1) + 1)"
+  "3":
+    chapter: 哔哩哔哩入学考试
+    story: |-
+      @lastone> @sender，“夜阑卧听风吹雨,铁马冰河入梦来”是谁的诗句？
+      > 
+      > 答题进度: `@validrounds`/@totalrounds
+
+      选项: 
+
+      A.  🎤  李白
+
+      B.  💃  杜甫
+
+      C.  🎵  李清照
+
+      D.  🏀  陆游
+    choices:
+      - keywords: [d, 陆游]
+        description: ""
+        action: [gotox, incr, calc, calc, calc, calc]
+        param:
+          [
+            "Math.round(Math.random() * (62 - 1) + 1)",
+            "validrounds",
+            "details+='✅“夜阑卧听风吹雨,铁马冰河入梦来”是谁的诗句？答案是`陆游`\\n\\n'",
+            "score+(100/totalrounds)",
+            "grams+500",
+            "lastone=''",
+          ]
+      - keywords: [a, 李白, b, 杜甫, c, 李清照]
+        description: ""
+        action: [gotox, incr, calc, calc]
+        param:
+          [
+            "Math.round(Math.random() * (62 - 1) + 1)",
+            "validrounds",
+            "details+='❌“夜阑卧听风吹雨,铁马冰河入梦来”是谁的诗句？答案是`陆游`\\n\\n'",
+            "lastone='上一题纠错: 应该是`陆游`\\n\\n'",
+          ]
+      - keywords: [继续, 下一步, continue, next, jixu]
+        description: ""
+        action: gotox
+        param: "Math.round(Math.random() * (62 - 1) + 1)"
+  "4":
+    chapter: 哔哩哔哩入学考试
+    story: |-
+      @lastone> @sender，“夜阑卧听风吹雨,铁马冰河入梦来”是谁的诗句？
+      > 
+      > 答题进度: `@validrounds`/@totalrounds
+
+      选项: 
+
+      A.  🎤  李白
+
+      B.  💃  杜甫
+
+      C.  🎵  王维
+
+      D.  🏀  陆游
+    choices:
+      - keywords: [d, 陆游]
+        description: ""
+        action: [gotox, incr, calc, calc, calc, calc]
+        param:
+          [
+            "Math.round(Math.random() * (62 - 1) + 1)",
+            "validrounds",
+            "details+='✅“夜阑卧听风吹雨,铁马冰河入梦来”是谁的诗句？答案是`陆游`\\n\\n'",
+            "score+(100/totalrounds)",
+            "grams+500",
+            "lastone=''",
+          ]
+      - keywords: [a, 李白, b, 杜甫, c, 王维]
+        description: ""
+        action: [gotox, incr, calc, calc]
+        param:
+          [
+            "Math.round(Math.random() * (62 - 1) + 1)",
+            "validrounds",
+            "details+='❌“夜阑卧听风吹雨,铁马冰河入梦来”是谁的诗句？答案是`陆游`\\n\\n'",
+            "lastone='上一题纠错: 应该是`陆游`\\n\\n'",
+          ]
+      - keywords: [继续, 下一步, continue, next, jixu]
+        description: ""
+        action: gotox
+        param: "Math.round(Math.random() * (62 - 1) + 1)"
+  "5":
+    chapter: 哔哩哔哩入学考试
+    story: |-
+      @lastone> @sender，魔法少女小圆的导演是谁？
+      > 
+      > 答题进度: `@validrounds`/@totalrounds
+
+      选项: 
+
+      A.  🎤  新房昭之
+
+      B.  💃  虚渊玄
+
+      C.  🎵  西尾维新
+
+      D.  🏀  北野武
+    choices:
+      - keywords: [a, 新房昭之]
+        description: ""
+        action: [gotox, incr, calc, calc, calc, calc]
+        param:
+          [
+            "Math.round(Math.random() * (62 - 1) + 1)",
+            "validrounds",
+            "details+='✅魔法少女小圆的导演是谁？答案是`新房昭之`\\n\\n'",
+            "score+(100/totalrounds)",
+            "grams+500",
+            "lastone=''",
+          ]
+      - keywords: [b, 虚渊玄, c, 西尾维新, d, 北野武]
+        description: ""
+        action: [gotox, incr, calc, calc]
+        param:
+          [
+            "Math.round(Math.random() * (62 - 1) + 1)",
+            "validrounds",
+            "details+='❌魔法少女小圆的导演是谁？答案是`新房昭之`\\n\\n'",
+            "lastone='上一题纠错: 应该是`新房昭之`\\n\\n'",
+          ]
+      - keywords: [继续, 下一步, continue, next, jixu]
+        description: ""
+        action: gotox
+        param: "Math.round(Math.random() * (62 - 1) + 1)"
+  "6":
+    chapter: 哔哩哔哩入学考试
+    story: |-
+      @lastone> @sender，我国唯一一个具有五种地形的省区是哪里？
+      > 
+      > 答题进度: `@validrounds`/@totalrounds
+
+      选项: 
+
+      A.  🎤  甘肃
+
+      B.  💃  四川
+
+      C.  🎵  云南
+
+      D.  🏀  广东
+    choices:
+      - keywords: [b, 四川]
+        description: ""
+        action: [gotox, incr, calc, calc, calc, calc]
+        param:
+          [
+            "Math.round(Math.random() * (62 - 1) + 1)",
+            "validrounds",
+            "details+='✅我国唯一一个具有五种地形的省区是哪里？答案是`四川`\\n\\n'",
+            "score+(100/totalrounds)",
+            "grams+500",
+            "lastone=''",
+          ]
+      - keywords: [a, 甘肃, c, 云南, d, 广东]
+        description: ""
+        action: [gotox, incr, calc, calc]
+        param:
+          [
+            "Math.round(Math.random() * (62 - 1) + 1)",
+            "validrounds",
+            "details+='❌我国唯一一个具有五种地形的省区是哪里？答案是`四川`\\n\\n'",
+            "lastone='上一题纠错: 应该是`四川`\\n\\n'",
+          ]
+      - keywords: [继续, 下一步, continue, next, jixu]
+        description: ""
+        action: gotox
+        param: "Math.round(Math.random() * (62 - 1) + 1)"
+  "7":
+    chapter: 哔哩哔哩入学考试
+    story: |-
+      @lastone> @sender，珍珠港事件后 美国航母集群什么轰炸机？
+      > 
+      > 答题进度: `@validrounds`/@totalrounds
+
+      选项: 
+
+      A.  🎤  F-22
+
+      B.  💃  米格-1
+
+      C.  🎵  B-25 米切尔
+
+      D.  🏀  波音737
+    choices:
+      - keywords: [c, B-25 米切尔]
+        description: ""
+        action: [gotox, incr, calc, calc, calc, calc]
+        param:
+          [
+            "Math.round(Math.random() * (62 - 1) + 1)",
+            "validrounds",
+            "details+='✅珍珠港事件后 美国航母集群什么轰炸机？答案是`B-25 米切尔`\\n\\n'",
+            "score+(100/totalrounds)",
+            "grams+500",
+            "lastone=''",
+          ]
+      - keywords: [a, F-22, b, 米格-1, d, 波音737]
+        description: ""
+        action: [gotox, incr, calc, calc]
+        param:
+          [
+            "Math.round(Math.random() * (62 - 1) + 1)",
+            "validrounds",
+            "details+='❌珍珠港事件后 美国航母集群什么轰炸机？答案是`B-25 米切尔`\\n\\n'",
+            "lastone='上一题纠错: 应该是`B-25 米切尔`\\n\\n'",
+          ]
+      - keywords: [继续, 下一步, continue, next, jixu]
+        description: ""
+        action: gotox
+        param: "Math.round(Math.random() * (62 - 1) + 1)"
+  "8":
+    chapter: 哔哩哔哩入学考试
+    story: |-
+      @lastone> @sender，以下哪个是微软的产品？
+      > 
+      > 答题进度: `@validrounds`/@totalrounds
+
+      选项: 
+
+      A.  🎤  XBOX ONE
+
+      B.  💃  PS4
+
+      C.  🎵  iMac
+
+      D.  🏀  GeForce
+    choices:
+      - keywords: [a, XBOX ONE]
+        description: ""
+        action: [gotox, incr, calc, calc, calc, calc]
+        param:
+          [
+            "Math.round(Math.random() * (62 - 1) + 1)",
+            "validrounds",
+            "details+='✅以下哪个是微软的产品？答案是`XBOX ONE`\\n\\n'",
+            "score+(100/totalrounds)",
+            "grams+500",
+            "lastone=''",
+          ]
+      - keywords: [b, PS4, c, iMac, d, GeForce]
+        description: ""
+        action: [gotox, incr, calc, calc]
+        param:
+          [
+            "Math.round(Math.random() * (62 - 1) + 1)",
+            "validrounds",
+            "details+='❌以下哪个是微软的产品？答案是`XBOX ONE`\\n\\n'",
+            "lastone='上一题纠错: 应该是`XBOX ONE`\\n\\n'",
+          ]
+      - keywords: [继续, 下一步, continue, next, jixu]
+        description: ""
+        action: gotox
+        param: "Math.round(Math.random() * (62 - 1) + 1)"
+  "9":
+    chapter: 哔哩哔哩入学考试
+    story: |-
+      @lastone> @sender，宫崎骏唯一获得奥斯卡最佳动画长篇奖项的动画电影是？
+      > 
+      > 答题进度: `@validrounds`/@totalrounds
+
+      选项: 
+
+      A.  🎤  天空之城
+
+      B.  💃  千与千寻
+
+      C.  🎵  侧耳倾听
+
+      D.  🏀  龙猫
+    choices:
+      - keywords: [b, 千与千寻]
+        description: ""
+        action: [gotox, incr, calc, calc, calc, calc]
+        param:
+          [
+            "Math.round(Math.random() * (62 - 1) + 1)",
+            "validrounds",
+            "details+='✅宫崎骏唯一获得奥斯卡最佳动画长篇奖项的动画电影是？答案是`千与千寻`\\n\\n'",
+            "score+(100/totalrounds)",
+            "grams+500",
+            "lastone=''",
+          ]
+      - keywords: [a, 天空之城, c, 侧耳倾听, d, 龙猫]
+        description: ""
+        action: [gotox, incr, calc, calc]
+        param:
+          [
+            "Math.round(Math.random() * (62 - 1) + 1)",
+            "validrounds",
+            "details+='❌宫崎骏唯一获得奥斯卡最佳动画长篇奖项的动画电影是？答案是`千与千寻`\\n\\n'",
+            "lastone='上一题纠错: 应该是`千与千寻`\\n\\n'",
+          ]
+      - keywords: [继续, 下一步, continue, next, jixu]
+        description: ""
+        action: gotox
+        param: "Math.round(Math.random() * (62 - 1) + 1)"
+  "10":
+    chapter: 哔哩哔哩入学考试
+    story: |-
+      @lastone> @sender，以下哪家不是显卡厂商？
+      > 
+      > 答题进度: `@validrounds`/@totalrounds
+
+      选项: 
+
+      A.  🎤  amd
+
+      B.  💃  nvidia
+
+      C.  🎵  kfc
+
+      D.  🏀  intel
+    choices:
+      - keywords: [c, kfc]
+        description: ""
+        action: [gotox, incr, calc, calc, calc, calc]
+        param:
+          [
+            "Math.round(Math.random() * (62 - 1) + 1)",
+            "validrounds",
+            "details+='✅以下哪家不是显卡厂商？答案是`kfc`\\n\\n'",
+            "score+(100/totalrounds)",
+            "grams+500",
+            "lastone=''",
+          ]
+      - keywords: [a, amd, b, nvidia, d, intel]
+        description: ""
+        action: [gotox, incr, calc, calc]
+        param:
+          [
+            "Math.round(Math.random() * (62 - 1) + 1)",
+            "validrounds",
+            "details+='❌以下哪家不是显卡厂商？答案是`kfc`\\n\\n'",
+            "lastone='上一题纠错: 应该是`kfc`\\n\\n'",
+          ]
+      - keywords: [继续, 下一步, continue, next, jixu]
+        description: ""
+        action: gotox
+        param: "Math.round(Math.random() * (62 - 1) + 1)"
+  "11":
+    chapter: 哔哩哔哩入学考试
+    story: |-
+      @lastone> @sender，世界上面积最大的岛屿？
+      > 
+      > 答题进度: `@validrounds`/@totalrounds
+
+      选项: 
+
+      A.  🎤  澳大利亚
+
+      B.  💃  普吉岛
+
+      C.  🎵  布吉岛
+
+      D.  🏀  格陵兰岛
+    choices:
+      - keywords: [d, 格陵兰岛]
+        description: ""
+        action: [gotox, incr, calc, calc, calc, calc]
+        param:
+          [
+            "Math.round(Math.random() * (62 - 1) + 1)",
+            "validrounds",
+            "details+='✅世界上面积最大的岛屿？答案是`格陵兰岛`\\n\\n'",
+            "score+(100/totalrounds)",
+            "grams+500",
+            "lastone=''",
+          ]
+      - keywords: [a, 澳大利亚, b, 普吉岛, c, 布吉岛]
+        description: ""
+        action: [gotox, incr, calc, calc]
+        param:
+          [
+            "Math.round(Math.random() * (62 - 1) + 1)",
+            "validrounds",
+            "details+='❌世界上面积最大的岛屿？答案是`格陵兰岛`\\n\\n'",
+            "lastone='上一题纠错: 应该是`格陵兰岛`\\n\\n'",
+          ]
+      - keywords: [继续, 下一步, continue, next, jixu]
+        description: ""
+        action: gotox
+        param: "Math.round(Math.random() * (62 - 1) + 1)"
+  "12":
+    chapter: 哔哩哔哩入学考试
+    story: |-
+      @lastone> @sender，磁带、硬盘和信用卡都利用了什么特性的物质来作储存数据？
+      > 
+      > 答题进度: `@validrounds`/@totalrounds
+
+      选项: 
+
+      A.  🎤  低磁滞损失的铁磁性物质
+
+      B.  💃  铜线的导电性
+
+      C.  🎵  自来水的流动性
+
+      D.  🏀  自大狂的膨胀性
+    choices:
+      - keywords: [a, 低磁滞损失的铁磁性物质]
+        description: ""
+        action: [gotox, incr, calc, calc, calc, calc]
+        param:
+          [
+            "Math.round(Math.random() * (62 - 1) + 1)",
+            "validrounds",
+            "details+='✅磁带、硬盘和信用卡都利用了什么特性的物质来作储存数据？答案是`低磁滞损失的铁磁性物质`\\n\\n'",
+            "score+(100/totalrounds)",
+            "grams+500",
+            "lastone=''",
+          ]
+      - keywords: [b, 铜线的导电性, c, 自来水的流动性, d, 自大狂的膨胀性]
+        description: ""
+        action: [gotox, incr, calc, calc]
+        param:
+          [
+            "Math.round(Math.random() * (62 - 1) + 1)",
+            "validrounds",
+            "details+='❌磁带、硬盘和信用卡都利用了什么特性的物质来作储存数据？答案是`低磁滞损失的铁磁性物质`\\n\\n'",
+            "lastone='上一题纠错: 应该是`低磁滞损失的铁磁性物质`\\n\\n'",
+          ]
+      - keywords: [继续, 下一步, continue, next, jixu]
+        description: ""
+        action: gotox
+        param: "Math.round(Math.random() * (62 - 1) + 1)"
+  "13":
+    chapter: 哔哩哔哩入学考试
+    story: |-
+      @lastone> @sender，索尼的第一部游戏主机playstation是在哪一年推出的？
+      > 
+      > 答题进度: `@validrounds`/@totalrounds
+
+      选项: 
+
+      A.  🎤  1984年
+
+      B.  💃  1994年
+
+      C.  🎵  1995年
+
+      D.  🏀  1999年
+    choices:
+      - keywords: [b, 1994年]
+        description: ""
+        action: [gotox, incr, calc, calc, calc, calc]
+        param:
+          [
+            "Math.round(Math.random() * (62 - 1) + 1)",
+            "validrounds",
+            "details+='✅索尼的第一部游戏主机playstation是在哪一年推出的？答案是`1994年`\\n\\n'",
+            "score+(100/totalrounds)",
+            "grams+500",
+            "lastone=''",
+          ]
+      - keywords: [a, 1984年, c, 1995年, d, 1999年]
+        description: ""
+        action: [gotox, incr, calc, calc]
+        param:
+          [
+            "Math.round(Math.random() * (62 - 1) + 1)",
+            "validrounds",
+            "details+='❌索尼的第一部游戏主机playstation是在哪一年推出的？答案是`1994年`\\n\\n'",
+            "lastone='上一题纠错: 应该是`1994年`\\n\\n'",
+          ]
+      - keywords: [继续, 下一步, continue, next, jixu]
+        description: ""
+        action: gotox
+        param: "Math.round(Math.random() * (62 - 1) + 1)"
+  "14":
+    chapter: 哔哩哔哩入学考试
+    story: |-
+      @lastone> @sender，以下哪种视频容器格式可封装的轨道数最多？
+      > 
+      > 答题进度: `@validrounds`/@totalrounds
+
+      选项: 
+
+      A.  🎤  avi
+
+      B.  💃  rmvb
+
+      C.  🎵  mkv
+
+      D.  🏀  jpg
+    choices:
+      - keywords: [c, mkv]
+        description: ""
+        action: [gotox, incr, calc, calc, calc, calc]
+        param:
+          [
+            "Math.round(Math.random() * (62 - 1) + 1)",
+            "validrounds",
+            "details+='✅以下哪种视频容器格式可封装的轨道数最多？答案是`mkv`\\n\\n'",
+            "score+(100/totalrounds)",
+            "grams+500",
+            "lastone=''",
+          ]
+      - keywords: [a, avi, b, rmvb, d, jpg]
+        description: ""
+        action: [gotox, incr, calc, calc]
+        param:
+          [
+            "Math.round(Math.random() * (62 - 1) + 1)",
+            "validrounds",
+            "details+='❌以下哪种视频容器格式可封装的轨道数最多？答案是`mkv`\\n\\n'",
+            "lastone='上一题纠错: 应该是`mkv`\\n\\n'",
+          ]
+      - keywords: [继续, 下一步, continue, next, jixu]
+        description: ""
+        action: gotox
+        param: "Math.round(Math.random() * (62 - 1) + 1)"
+  "15":
+    chapter: 哔哩哔哩入学考试
+    story: |-
+      @lastone> @sender，一战中最先使用毒气弹的战役是？
+      > 
+      > 答题进度: `@validrounds`/@totalrounds
+
+      选项: 
+
+      A.  🎤  索姆河战役
+
+      B.  💃  莫斯科战役
+
+      C.  🎵  斯大林格勒战役
+
+      D.  🏀  凡尔登战役
+    choices:
+      - keywords: [d, 凡尔登战役]
+        description: ""
+        action: [gotox, incr, calc, calc, calc, calc]
+        param:
+          [
+            "Math.round(Math.random() * (62 - 1) + 1)",
+            "validrounds",
+            "details+='✅一战中最先使用毒气弹的战役是？答案是`凡尔登战役`\\n\\n'",
+            "score+(100/totalrounds)",
+            "grams+500",
+            "lastone=''",
+          ]
+      - keywords: [a, 索姆河战役, b, 莫斯科战役, c, 斯大林格勒战役]
+        description: ""
+        action: [gotox, incr, calc, calc]
+        param:
+          [
+            "Math.round(Math.random() * (62 - 1) + 1)",
+            "validrounds",
+            "details+='❌一战中最先使用毒气弹的战役是？答案是`凡尔登战役`\\n\\n'",
+            "lastone='上一题纠错: 应该是`凡尔登战役`\\n\\n'",
+          ]
+      - keywords: [继续, 下一步, continue, next, jixu]
+        description: ""
+        action: gotox
+        param: "Math.round(Math.random() * (62 - 1) + 1)"
+  "16":
+    chapter: 哔哩哔哩入学考试
+    story: |-
+      @lastone> @sender，在 1993 年 Windows 95 的测试版中的开发版本号是哪一个？
+      > 
+      > 答题进度: `@validrounds`/@totalrounds
+
+      选项: 
+
+      A.  🎤  Chicago
+
+      B.  💃  Whistler
+
+      C.  🎵  Longhorn
+
+      D.  🏀  NewYork
+    choices:
+      - keywords: [a, Chicago]
+        description: ""
+        action: [gotox, incr, calc, calc, calc, calc]
+        param:
+          [
+            "Math.round(Math.random() * (62 - 1) + 1)",
+            "validrounds",
+            "details+='✅在 1993 年 Windows 95 的测试版中的开发版本号是哪一个？答案是`Chicago`\\n\\n'",
+            "score+(100/totalrounds)",
+            "grams+500",
+            "lastone=''",
+          ]
+      - keywords: [b, Whistler, c, Longhorn, d, NewYork]
+        description: ""
+        action: [gotox, incr, calc, calc]
+        param:
+          [
+            "Math.round(Math.random() * (62 - 1) + 1)",
+            "validrounds",
+            "details+='❌在 1993 年 Windows 95 的测试版中的开发版本号是哪一个？答案是`Chicago`\\n\\n'",
+            "lastone='上一题纠错: 应该是`Chicago`\\n\\n'",
+          ]
+      - keywords: [继续, 下一步, continue, next, jixu]
+        description: ""
+        action: gotox
+        param: "Math.round(Math.random() * (62 - 1) + 1)"
+  "17":
+    chapter: 哔哩哔哩入学考试
+    story: |-
+      @lastone> @sender，Fate Zero第二季中的OP作者是谁？
+      > 
+      > 答题进度: `@validrounds`/@totalrounds
+
+      选项: 
+
+      A.  🎤  久石让
+
+      B.  💃  梶浦由记
+
+      C.  🎵  大野克夫
+
+      D.  🏀  高梨康治
+    choices:
+      - keywords: [b, 梶浦由记]
+        description: ""
+        action: [gotox, incr, calc, calc, calc, calc]
+        param:
+          [
+            "Math.round(Math.random() * (62 - 1) + 1)",
+            "validrounds",
+            "details+='✅Fate Zero第二季中的OP作者是谁？答案是`梶浦由记`\\n\\n'",
+            "score+(100/totalrounds)",
+            "grams+500",
+            "lastone=''",
+          ]
+      - keywords: [a, 久石让, c, 大野克夫, d, 高梨康治]
+        description: ""
+        action: [gotox, incr, calc, calc]
+        param:
+          [
+            "Math.round(Math.random() * (62 - 1) + 1)",
+            "validrounds",
+            "details+='❌Fate Zero第二季中的OP作者是谁？答案是`梶浦由记`\\n\\n'",
+            "lastone='上一题纠错: 应该是`梶浦由记`\\n\\n'",
+          ]
+      - keywords: [继续, 下一步, continue, next, jixu]
+        description: ""
+        action: gotox
+        param: "Math.round(Math.random() * (62 - 1) + 1)"
+  "18":
+    chapter: 哔哩哔哩入学考试
+    story: |-
+      @lastone> @sender，大美利坚自由独立的第一枪在哪里打响？
+      > 
+      > 答题进度: `@validrounds`/@totalrounds
+
+      选项: 
+
+      A.  🎤  加利福尼亚
+
+      B.  💃  费城
+
+      C.  🎵  莱克星顿
+
+      D.  🏀  多伦多
+    choices:
+      - keywords: [c, 莱克星顿]
+        description: ""
+        action: [gotox, incr, calc, calc, calc, calc]
+        param:
+          [
+            "Math.round(Math.random() * (62 - 1) + 1)",
+            "validrounds",
+            "details+='✅大美利坚自由独立的第一枪在哪里打响？答案是`莱克星顿`\\n\\n'",
+            "score+(100/totalrounds)",
+            "grams+500",
+            "lastone=''",
+          ]
+      - keywords: [a, 加利福尼亚, b, 费城, d, 多伦多]
+        description: ""
+        action: [gotox, incr, calc, calc]
+        param:
+          [
+            "Math.round(Math.random() * (62 - 1) + 1)",
+            "validrounds",
+            "details+='❌大美利坚自由独立的第一枪在哪里打响？答案是`莱克星顿`\\n\\n'",
+            "lastone='上一题纠错: 应该是`莱克星顿`\\n\\n'",
+          ]
+      - keywords: [继续, 下一步, continue, next, jixu]
+        description: ""
+        action: gotox
+        param: "Math.round(Math.random() * (62 - 1) + 1)"
+  "19":
+    chapter: 哔哩哔哩入学考试
+    story: |-
+      @lastone> @sender，国际通用的标准音的频率是？
+      > 
+      > 答题进度: `@validrounds`/@totalrounds
+
+      选项: 
+
+      A.  🎤  110Hz
+
+      B.  💃  220Hz
+
+      C.  🎵  330Hz
+
+      D.  🏀  440Hz
+    choices:
+      - keywords: [d, 440Hz]
+        description: ""
+        action: [gotox, incr, calc, calc, calc, calc]
+        param:
+          [
+            "Math.round(Math.random() * (62 - 1) + 1)",
+            "validrounds",
+            "details+='✅国际通用的标准音的频率是？答案是`440Hz`\\n\\n'",
+            "score+(100/totalrounds)",
+            "grams+500",
+            "lastone=''",
+          ]
+      - keywords: [a, 110Hz, b, 220Hz, c, 330Hz]
+        description: ""
+        action: [gotox, incr, calc, calc]
+        param:
+          [
+            "Math.round(Math.random() * (62 - 1) + 1)",
+            "validrounds",
+            "details+='❌国际通用的标准音的频率是？答案是`440Hz`\\n\\n'",
+            "lastone='上一题纠错: 应该是`440Hz`\\n\\n'",
+          ]
+      - keywords: [继续, 下一步, continue, next, jixu]
+        description: ""
+        action: gotox
+        param: "Math.round(Math.random() * (62 - 1) + 1)"
+  "20":
+    chapter: 哔哩哔哩入学考试
+    story: |-
+      @lastone> @sender，下列哪个不是天启四骑士？
+      > 
+      > 答题进度: `@validrounds`/@totalrounds
+
+      选项: 
+
+      A.  🎤  战神
+
+      B.  💃  白马
+
+      C.  🎵  红马
+
+      D.  🏀  黑马
+    choices:
+      - keywords: [a, 战神]
+        description: ""
+        action: [gotox, incr, calc, calc, calc, calc]
+        param:
+          [
+            "Math.round(Math.random() * (62 - 1) + 1)",
+            "validrounds",
+            "details+='✅下列哪个不是天启四骑士？答案是`战神`\\n\\n'",
+            "score+(100/totalrounds)",
+            "grams+500",
+            "lastone=''",
+          ]
+      - keywords: [b, 白马, c, 红马, d, 黑马]
+        description: ""
+        action: [gotox, incr, calc, calc]
+        param:
+          [
+            "Math.round(Math.random() * (62 - 1) + 1)",
+            "validrounds",
+            "details+='❌下列哪个不是天启四骑士？答案是`战神`\\n\\n'",
+            "lastone='上一题纠错: 应该是`战神`\\n\\n'",
+          ]
+      - keywords: [继续, 下一步, continue, next, jixu]
+        description: ""
+        action: gotox
+        param: "Math.round(Math.random() * (62 - 1) + 1)"
+  "21":
+    chapter: 哔哩哔哩入学考试
+    story: |-
+      @lastone> @sender，网页在不重载页面的情况下重绘部分页面的技术叫做什么？
+      > 
+      > 答题进度: `@validrounds`/@totalrounds
+
+      选项: 
+
+      A.  🎤  HTML5
+
+      B.  💃  AJAX
+
+      C.  🎵  Flash
+
+      D.  🏀  Silverlight
+    choices:
+      - keywords: [b, AJAX]
+        description: ""
+        action: [gotox, incr, calc, calc, calc, calc]
+        param:
+          [
+            "Math.round(Math.random() * (62 - 1) + 1)",
+            "validrounds",
+            "details+='✅网页在不重载页面的情况下重绘部分页面的技术叫做什么？答案是`AJAX`\\n\\n'",
+            "score+(100/totalrounds)",
+            "grams+500",
+            "lastone=''",
+          ]
+      - keywords: [a, HTML5, c, Flash, d, Silverlight]
+        description: ""
+        action: [gotox, incr, calc, calc]
+        param:
+          [
+            "Math.round(Math.random() * (62 - 1) + 1)",
+            "validrounds",
+            "details+='❌网页在不重载页面的情况下重绘部分页面的技术叫做什么？答案是`AJAX`\\n\\n'",
+            "lastone='上一题纠错: 应该是`AJAX`\\n\\n'",
+          ]
+      - keywords: [继续, 下一步, continue, next, jixu]
+        description: ""
+        action: gotox
+        param: "Math.round(Math.random() * (62 - 1) + 1)"
+  "22":
+    chapter: 哔哩哔哩入学考试
+    story: |-
+      @lastone> @sender，以下那个adobe的软件是用于剪辑视频的？
+      > 
+      > 答题进度: `@validrounds`/@totalrounds
+
+      选项: 
+
+      A.  🎤  photoshop
+
+      B.  💃  aftereffects
+
+      C.  🎵  premiere
+
+      D.  🏀  lightroom
+    choices:
+      - keywords: [c, premiere]
+        description: ""
+        action: [gotox, incr, calc, calc, calc, calc]
+        param:
+          [
+            "Math.round(Math.random() * (62 - 1) + 1)",
+            "validrounds",
+            "details+='✅以下那个adobe的软件是用于剪辑视频的？答案是`premiere`\\n\\n'",
+            "score+(100/totalrounds)",
+            "grams+500",
+            "lastone=''",
+          ]
+      - keywords: [a, photoshop, b, aftereffects, d, lightroom]
+        description: ""
+        action: [gotox, incr, calc, calc]
+        param:
+          [
+            "Math.round(Math.random() * (62 - 1) + 1)",
+            "validrounds",
+            "details+='❌以下那个adobe的软件是用于剪辑视频的？答案是`premiere`\\n\\n'",
+            "lastone='上一题纠错: 应该是`premiere`\\n\\n'",
+          ]
+      - keywords: [继续, 下一步, continue, next, jixu]
+        description: ""
+        action: gotox
+        param: "Math.round(Math.random() * (62 - 1) + 1)"
+  "23":
+    chapter: 哔哩哔哩入学考试
+    story: |-
+      @lastone> @sender，谁证明了地球是圆的？
+      > 
+      > 答题进度: `@validrounds`/@totalrounds
+
+      选项: 
+
+      A.  🎤  哥伦布
+
+      B.  💃  卡文迪许
+
+      C.  🎵  伽利略
+
+      D.  🏀  麦哲伦
+    choices:
+      - keywords: [d, 麦哲伦]
+        description: ""
+        action: [gotox, incr, calc, calc, calc, calc]
+        param:
+          [
+            "Math.round(Math.random() * (62 - 1) + 1)",
+            "validrounds",
+            "details+='✅谁证明了地球是圆的？答案是`麦哲伦`\\n\\n'",
+            "score+(100/totalrounds)",
+            "grams+500",
+            "lastone=''",
+          ]
+      - keywords: [a, 哥伦布, b, 卡文迪许, c, 伽利略]
+        description: ""
+        action: [gotox, incr, calc, calc]
+        param:
+          [
+            "Math.round(Math.random() * (62 - 1) + 1)",
+            "validrounds",
+            "details+='❌谁证明了地球是圆的？答案是`麦哲伦`\\n\\n'",
+            "lastone='上一题纠错: 应该是`麦哲伦`\\n\\n'",
+          ]
+      - keywords: [继续, 下一步, continue, next, jixu]
+        description: ""
+        action: gotox
+        param: "Math.round(Math.random() * (62 - 1) + 1)"
+  "24":
+    chapter: 哔哩哔哩入学考试
+    story: |-
+      @lastone> @sender，战略大作战这部电影当中，主角们做了啥？
+      > 
+      > 答题进度: `@validrounds`/@totalrounds
+
+      选项: 
+
+      A.  🎤  开着谢尔曼抢银行
+
+      B.  💃  开着阿波罗号登月
+
+      C.  🎵  踩着鼓点蹦迪
+
+      D.  🏀  开黑玩喷射战士
+    choices:
+      - keywords: [a, 开着谢尔曼抢银行]
+        description: ""
+        action: [gotox, incr, calc, calc, calc, calc]
+        param:
+          [
+            "Math.round(Math.random() * (62 - 1) + 1)",
+            "validrounds",
+            "details+='✅战略大作战这部电影当中，主角们做了啥？答案是`开着谢尔曼抢银行`\\n\\n'",
+            "score+(100/totalrounds)",
+            "grams+500",
+            "lastone=''",
+          ]
+      - keywords: [b, 开着阿波罗号登月, c, 踩着鼓点蹦迪, d, 开黑玩喷射战士]
+        description: ""
+        action: [gotox, incr, calc, calc]
+        param:
+          [
+            "Math.round(Math.random() * (62 - 1) + 1)",
+            "validrounds",
+            "details+='❌战略大作战这部电影当中，主角们做了啥？答案是`开着谢尔曼抢银行`\\n\\n'",
+            "lastone='上一题纠错: 应该是`开着谢尔曼抢银行`\\n\\n'",
+          ]
+      - keywords: [继续, 下一步, continue, next, jixu]
+        description: ""
+        action: gotox
+        param: "Math.round(Math.random() * (62 - 1) + 1)"
+  "25":
+    chapter: 哔哩哔哩入学考试
+    story: |-
+      @lastone> @sender，美版恐龙战队的绿衣队员叫什么？
+      > 
+      > 答题进度: `@validrounds`/@totalrounds
+
+      选项: 
+
+      A.  🎤  修米
+
+      B.  💃  汤米
+
+      C.  🎵  大米
+
+      D.  🏀  玉米
+    choices:
+      - keywords: [b, 汤米]
+        description: ""
+        action: [gotox, incr, calc, calc, calc, calc]
+        param:
+          [
+            "Math.round(Math.random() * (62 - 1) + 1)",
+            "validrounds",
+            "details+='✅美版恐龙战队的绿衣队员叫什么？答案是`汤米`\\n\\n'",
+            "score+(100/totalrounds)",
+            "grams+500",
+            "lastone=''",
+          ]
+      - keywords: [a, 修米, c, 大米, d, 玉米]
+        description: ""
+        action: [gotox, incr, calc, calc]
+        param:
+          [
+            "Math.round(Math.random() * (62 - 1) + 1)",
+            "validrounds",
+            "details+='❌美版恐龙战队的绿衣队员叫什么？答案是`汤米`\\n\\n'",
+            "lastone='上一题纠错: 应该是`汤米`\\n\\n'",
+          ]
+      - keywords: [继续, 下一步, continue, next, jixu]
+        description: ""
+        action: gotox
+        param: "Math.round(Math.random() * (62 - 1) + 1)"
+  "26":
+    chapter: 哔哩哔哩入学考试
+    story: |-
+      @lastone> @sender，《新本格魔法少女莉丝佳》中莉丝佳使用什么魔法？
+      > 
+      > 答题进度: `@validrounds`/@totalrounds
+
+      选项: 
+
+      A.  🎤  空间
+
+      B.  💃  房间
+
+      C.  🎵  时间
+
+      D.  🏀  离间
+    choices:
+      - keywords: [c, 时间]
+        description: ""
+        action: [gotox, incr, calc, calc, calc, calc]
+        param:
+          [
+            "Math.round(Math.random() * (62 - 1) + 1)",
+            "validrounds",
+            "details+='✅《新本格魔法少女莉丝佳》中莉丝佳使用什么魔法？答案是`时间`\\n\\n'",
+            "score+(100/totalrounds)",
+            "grams+500",
+            "lastone=''",
+          ]
+      - keywords: [a, 空间, b, 房间, d, 离间]
+        description: ""
+        action: [gotox, incr, calc, calc]
+        param:
+          [
+            "Math.round(Math.random() * (62 - 1) + 1)",
+            "validrounds",
+            "details+='❌《新本格魔法少女莉丝佳》中莉丝佳使用什么魔法？答案是`时间`\\n\\n'",
+            "lastone='上一题纠错: 应该是`时间`\\n\\n'",
+          ]
+      - keywords: [继续, 下一步, continue, next, jixu]
+        description: ""
+        action: gotox
+        param: "Math.round(Math.random() * (62 - 1) + 1)"
+  "27":
+    chapter: 哔哩哔哩入学考试
+    story: |-
+      @lastone> @sender，数码暴龙第一季的主题曲叫什么？
+      > 
+      > 答题进度: `@validrounds`/@totalrounds
+
+      选项: 
+
+      A.  🎤  Waterfly
+
+      B.  💃  Butterfly
+
+      C.  🎵  Applejuice
+
+      D.  🏀  Butterrun
+    choices:
+      - keywords: [b, Butterfly]
+        description: ""
+        action: [gotox, incr, calc, calc, calc, calc]
+        param:
+          [
+            "Math.round(Math.random() * (62 - 1) + 1)",
+            "validrounds",
+            "details+='✅数码暴龙第一季的主题曲叫什么？答案是`Butterfly`\\n\\n'",
+            "score+(100/totalrounds)",
+            "grams+500",
+            "lastone=''",
+          ]
+      - keywords: [a, Waterfly, c, Applejuice, d, Butterrun]
+        description: ""
+        action: [gotox, incr, calc, calc]
+        param:
+          [
+            "Math.round(Math.random() * (62 - 1) + 1)",
+            "validrounds",
+            "details+='❌数码暴龙第一季的主题曲叫什么？答案是`Butterfly`\\n\\n'",
+            "lastone='上一题纠错: 应该是`Butterfly`\\n\\n'",
+          ]
+      - keywords: [继续, 下一步, continue, next, jixu]
+        description: ""
+        action: gotox
+        param: "Math.round(Math.random() * (62 - 1) + 1)"
+  "28":
+    chapter: 哔哩哔哩入学考试
+    story: |-
+      @lastone> @sender，《Code Geass 反叛的鲁路修》中日本被不列颠帝国改称为什么？
+      > 
+      > 答题进度: `@validrounds`/@totalrounds
+
+      选项: 
+
+      A.  🎤  22区
+
+      B.  💃  33区
+
+      C.  🎵  11区
+
+      D.  🏀  -1区
+    choices:
+      - keywords: [c, 11区]
+        description: ""
+        action: [gotox, incr, calc, calc, calc, calc]
+        param:
+          [
+            "Math.round(Math.random() * (62 - 1) + 1)",
+            "validrounds",
+            "details+='✅《Code Geass 反叛的鲁路修》中日本被不列颠帝国改称为什么？答案是`11区`\\n\\n'",
+            "score+(100/totalrounds)",
+            "grams+500",
+            "lastone=''",
+          ]
+      - keywords: [a, 22区, b, 33区, d, -1区]
+        description: ""
+        action: [gotox, incr, calc, calc]
+        param:
+          [
+            "Math.round(Math.random() * (62 - 1) + 1)",
+            "validrounds",
+            "details+='❌《Code Geass 反叛的鲁路修》中日本被不列颠帝国改称为什么？答案是`11区`\\n\\n'",
+            "lastone='上一题纠错: 应该是`11区`\\n\\n'",
+          ]
+      - keywords: [继续, 下一步, continue, next, jixu]
+        description: ""
+        action: gotox
+        param: "Math.round(Math.random() * (62 - 1) + 1)"
+  "29":
+    chapter: 哔哩哔哩入学考试
+    story: |-
+      @lastone> @sender，创价学会御本尊(4代目)的sm号是多少？
+      > 
+      > 答题进度: `@validrounds`/@totalrounds
+
+      选项: 
+
+      A.  🎤  pm981
+
+      B.  💃  sm961
+
+      C.  🎵  sm2333333
+
+      D.  🏀  sm6999999
+    choices:
+      - keywords: [d, sm6999999]
+        description: ""
+        action: [gotox, incr, calc, calc, calc, calc]
+        param:
+          [
+            "Math.round(Math.random() * (62 - 1) + 1)",
+            "validrounds",
+            "details+='✅创价学会御本尊(4代目)的sm号是多少？答案是`sm6999999`\\n\\n'",
+            "score+(100/totalrounds)",
+            "grams+500",
+            "lastone=''",
+          ]
+      - keywords: [a, pm981, b, sm961, c, sm2333333]
+        description: ""
+        action: [gotox, incr, calc, calc]
+        param:
+          [
+            "Math.round(Math.random() * (62 - 1) + 1)",
+            "validrounds",
+            "details+='❌创价学会御本尊(4代目)的sm号是多少？答案是`sm6999999`\\n\\n'",
+            "lastone='上一题纠错: 应该是`sm6999999`\\n\\n'",
+          ]
+      - keywords: [继续, 下一步, continue, next, jixu]
+        description: ""
+        action: gotox
+        param: "Math.round(Math.random() * (62 - 1) + 1)"
+  "30":
+    chapter: 哔哩哔哩入学考试
+    story: |-
+      @lastone> @sender，机动战士高达中的牛高型号是？
+      > 
+      > 答题进度: `@validrounds`/@totalrounds
+
+      选项: 
+
+      A.  🎤  RX-93
+
+      B.  💃  APTX-4869
+
+      C.  🎵  RTX-2080
+
+      D.  🏀  XS-Max
+    choices:
+      - keywords: [a, RX-93]
+        description: ""
+        action: [gotox, incr, calc, calc, calc, calc]
+        param:
+          [
+            "Math.round(Math.random() * (62 - 1) + 1)",
+            "validrounds",
+            "details+='✅机动战士高达中的牛高型号是？答案是`RX-93`\\n\\n'",
+            "score+(100/totalrounds)",
+            "grams+500",
+            "lastone=''",
+          ]
+      - keywords: [b, APTX-4869, c, RTX-2080, d, XS-Max]
+        description: ""
+        action: [gotox, incr, calc, calc]
+        param:
+          [
+            "Math.round(Math.random() * (62 - 1) + 1)",
+            "validrounds",
+            "details+='❌机动战士高达中的牛高型号是？答案是`RX-93`\\n\\n'",
+            "lastone='上一题纠错: 应该是`RX-93`\\n\\n'",
+          ]
+      - keywords: [继续, 下一步, continue, next, jixu]
+        description: ""
+        action: gotox
+        param: "Math.round(Math.random() * (62 - 1) + 1)"
+  "31":
+    chapter: 哔哩哔哩入学考试
+    story: |-
+      @lastone> @sender，以下哪部作品出品时间最早？
+      > 
+      > 答题进度: `@validrounds`/@totalrounds
+
+      选项: 
+
+      A.  🎤  四驱兄弟
+
+      B.  💃  飞跃巅峰
+
+      C.  🎵  千与千寻
+
+      D.  🏀  中华小当家
+    choices:
+      - keywords: [b, 飞跃巅峰]
+        description: ""
+        action: [gotox, incr, calc, calc, calc, calc]
+        param:
+          [
+            "Math.round(Math.random() * (62 - 1) + 1)",
+            "validrounds",
+            "details+='✅以下哪部作品出品时间最早？答案是`飞跃巅峰`\\n\\n'",
+            "score+(100/totalrounds)",
+            "grams+500",
+            "lastone=''",
+          ]
+      - keywords: [a, 四驱兄弟, c, 千与千寻, d, 中华小当家]
+        description: ""
+        action: [gotox, incr, calc, calc]
+        param:
+          [
+            "Math.round(Math.random() * (62 - 1) + 1)",
+            "validrounds",
+            "details+='❌以下哪部作品出品时间最早？答案是`飞跃巅峰`\\n\\n'",
+            "lastone='上一题纠错: 应该是`飞跃巅峰`\\n\\n'",
+          ]
+      - keywords: [继续, 下一步, continue, next, jixu]
+        description: ""
+        action: gotox
+        param: "Math.round(Math.random() * (62 - 1) + 1)"
+  "32":
+    chapter: 哔哩哔哩入学考试
+    story: |-
+      @lastone> @sender，被称为"LOL"的游戏是什么？
+      > 
+      > 答题进度: `@validrounds`/@totalrounds
+
+      选项: 
+
+      A.  🎤  王者荣耀
+
+      B.  💃  笑话模拟器
+
+      C.  🎵  恶棍联盟
+
+      D.  🏀  英雄联盟
+    choices:
+      - keywords: [d, 英雄联盟]
+        description: ""
+        action: [gotox, incr, calc, calc, calc, calc]
+        param:
+          [
+            "Math.round(Math.random() * (62 - 1) + 1)",
+            "validrounds",
+            "details+='✅被称为LOL的游戏是什么？答案是`英雄联盟`\\n\\n'",
+            "score+(100/totalrounds)",
+            "grams+500",
+            "lastone=''",
+          ]
+      - keywords: [a, 王者荣耀, b, 笑话模拟器, c, 恶棍联盟]
+        description: ""
+        action: [gotox, incr, calc, calc]
+        param:
+          [
+            "Math.round(Math.random() * (62 - 1) + 1)",
+            "validrounds",
+            "details+='❌被称为LOL的游戏是什么？答案是`英雄联盟`\\n\\n'",
+            "lastone='上一题纠错: 应该是`英雄联盟`\\n\\n'",
+          ]
+      - keywords: [继续, 下一步, continue, next, jixu]
+        description: ""
+        action: gotox
+        param: "Math.round(Math.random() * (62 - 1) + 1)"
+  "33":
+    chapter: 哔哩哔哩入学考试
+    story: |-
+      @lastone> @sender，寒蝉里龙宫礼奈惯用的武器是？
+      > 
+      > 答题进度: `@validrounds`/@totalrounds
+
+      选项: 
+
+      A.  🎤  柴刀
+
+      B.  💃  菜刀
+
+      C.  🎵  水果刀
+
+      D.  🏀  铅笔刀
+    choices:
+      - keywords: [a, 柴刀]
+        description: ""
+        action: [gotox, incr, calc, calc, calc, calc]
+        param:
+          [
+            "Math.round(Math.random() * (62 - 1) + 1)",
+            "validrounds",
+            "details+='✅寒蝉里龙宫礼奈惯用的武器是？答案是`柴刀`\\n\\n'",
+            "score+(100/totalrounds)",
+            "grams+500",
+            "lastone=''",
+          ]
+      - keywords: [b, 菜刀, c, 水果刀, d, 铅笔刀]
+        description: ""
+        action: [gotox, incr, calc, calc]
+        param:
+          [
+            "Math.round(Math.random() * (62 - 1) + 1)",
+            "validrounds",
+            "details+='❌寒蝉里龙宫礼奈惯用的武器是？答案是`柴刀`\\n\\n'",
+            "lastone='上一题纠错: 应该是`柴刀`\\n\\n'",
+          ]
+      - keywords: [继续, 下一步, continue, next, jixu]
+        description: ""
+        action: gotox
+        param: "Math.round(Math.random() * (62 - 1) + 1)"
+  "34":
+    chapter: 哔哩哔哩入学考试
+    story: |-
+      @lastone> @sender，《魔法少女小圆》中小圆的配音是谁？
+      > 
+      > 答题进度: `@validrounds`/@totalrounds
+
+      选项: 
+
+      A.  🎤  斋藤千和
+
+      B.  💃  喜多村英梨
+
+      C.  🎵  加藤鹰美丽
+
+      D.  🏀  悠木碧
+    choices:
+      - keywords: [d, 悠木碧]
+        description: ""
+        action: [gotox, incr, calc, calc, calc, calc]
+        param:
+          [
+            "Math.round(Math.random() * (62 - 1) + 1)",
+            "validrounds",
+            "details+='✅《魔法少女小圆》中小圆的配音是谁？答案是`悠木碧`\\n\\n'",
+            "score+(100/totalrounds)",
+            "grams+500",
+            "lastone=''",
+          ]
+      - keywords: [a, 斋藤千和, b, 喜多村英梨, c, 加藤鹰美丽]
+        description: ""
+        action: [gotox, incr, calc, calc]
+        param:
+          [
+            "Math.round(Math.random() * (62 - 1) + 1)",
+            "validrounds",
+            "details+='❌《魔法少女小圆》中小圆的配音是谁？答案是`悠木碧`\\n\\n'",
+            "lastone='上一题纠错: 应该是`悠木碧`\\n\\n'",
+          ]
+      - keywords: [继续, 下一步, continue, next, jixu]
+        description: ""
+        action: gotox
+        param: "Math.round(Math.random() * (62 - 1) + 1)"
+  "35":
+    chapter: 哔哩哔哩入学考试
+    story: |-
+      @lastone> @sender，去除掉头和尾巴的马达加斯加蟑螂是什么味道？
+      > 
+      > 答题进度: `@validrounds`/@totalrounds
+
+      选项: 
+
+      A.  🎤  鸡肉味，嘎嘣脆
+
+      B.  💃  金克拉
+
+      C.  🎵  巧克力味
+
+      D.  🏀  鼻屎味
+    choices:
+      - keywords: [a, 鸡肉味，嘎嘣脆]
+        description: ""
+        action: [gotox, incr, calc, calc, calc, calc]
+        param:
+          [
+            "Math.round(Math.random() * (62 - 1) + 1)",
+            "validrounds",
+            "details+='✅去除掉头和尾巴的马达加斯加蟑螂是什么味道？答案是`鸡肉味，嘎嘣脆`\\n\\n'",
+            "score+(100/totalrounds)",
+            "grams+500",
+            "lastone=''",
+          ]
+      - keywords: [b, 金克拉, c, 巧克力味, d, 鼻屎味]
+        description: ""
+        action: [gotox, incr, calc, calc]
+        param:
+          [
+            "Math.round(Math.random() * (62 - 1) + 1)",
+            "validrounds",
+            "details+='❌去除掉头和尾巴的马达加斯加蟑螂是什么味道？答案是`鸡肉味，嘎嘣脆`\\n\\n'",
+            "lastone='上一题纠错: 应该是`鸡肉味，嘎嘣脆`\\n\\n'",
+          ]
+      - keywords: [继续, 下一步, continue, next, jixu]
+        description: ""
+        action: gotox
+        param: "Math.round(Math.random() * (62 - 1) + 1)"
+  "36":
+    chapter: 哔哩哔哩入学考试
+    story: |-
+      @lastone> @sender，《北斗神拳》主角健在师兄弟4人中排行第几？
+      > 
+      > 答题进度: `@validrounds`/@totalrounds
+
+      选项: 
+
+      A.  🎤  老大
+
+      B.  💃  老二
+
+      C.  🎵  老三
+
+      D.  🏀  老四
+    choices:
+      - keywords: [c, 老三]
+        description: ""
+        action: [gotox, incr, calc, calc, calc, calc]
+        param:
+          [
+            "Math.round(Math.random() * (62 - 1) + 1)",
+            "validrounds",
+            "details+='✅《北斗神拳》主角健在师兄弟4人中排行第几？答案是`老三`\\n\\n'",
+            "score+(100/totalrounds)",
+            "grams+500",
+            "lastone=''",
+          ]
+      - keywords: [a, 老大, b, 老二, d, 老四]
+        description: ""
+        action: [gotox, incr, calc, calc]
+        param:
+          [
+            "Math.round(Math.random() * (62 - 1) + 1)",
+            "validrounds",
+            "details+='❌《北斗神拳》主角健在师兄弟4人中排行第几？答案是`老三`\\n\\n'",
+            "lastone='上一题纠错: 应该是`老三`\\n\\n'",
+          ]
+      - keywords: [继续, 下一步, continue, next, jixu]
+        description: ""
+        action: gotox
+        param: "Math.round(Math.random() * (62 - 1) + 1)"
+  "37":
+    chapter: 哔哩哔哩入学考试
+    story: |-
+      @lastone> @sender，《哆啦A梦》中多啦A梦是从什么时代来的？
+      > 
+      > 答题进度: `@validrounds`/@totalrounds
+
+      选项: 
+
+      A.  🎤  19世纪
+
+      B.  💃  20世纪
+
+      C.  🎵  21世纪
+
+      D.  🏀  22世纪
+    choices:
+      - keywords: [d, 22世纪]
+        description: ""
+        action: [gotox, incr, calc, calc, calc, calc]
+        param:
+          [
+            "Math.round(Math.random() * (62 - 1) + 1)",
+            "validrounds",
+            "details+='✅《哆啦A梦》中多啦A梦是从什么时代来的？答案是`22世纪`\\n\\n'",
+            "score+(100/totalrounds)",
+            "grams+500",
+            "lastone=''",
+          ]
+      - keywords: [a, 19世纪, b, 20世纪, c, 21世纪]
+        description: ""
+        action: [gotox, incr, calc, calc]
+        param:
+          [
+            "Math.round(Math.random() * (62 - 1) + 1)",
+            "validrounds",
+            "details+='❌《哆啦A梦》中多啦A梦是从什么时代来的？答案是`22世纪`\\n\\n'",
+            "lastone='上一题纠错: 应该是`22世纪`\\n\\n'",
+          ]
+      - keywords: [继续, 下一步, continue, next, jixu]
+        description: ""
+        action: gotox
+        param: "Math.round(Math.random() * (62 - 1) + 1)"
+  "38":
+    chapter: 哔哩哔哩入学考试
+    story: |-
+      @lastone> @sender，《海贼王》的作者是谁？
+      > 
+      > 答题进度: `@validrounds`/@totalrounds
+
+      选项: 
+
+      A.  🎤  尾田荣一郎
+
+      B.  💃  青山刚昌
+
+      C.  🎵  臼井义人
+
+      D.  🏀  樱桃子
+    choices:
+      - keywords: [a, 尾田荣一郎]
+        description: ""
+        action: [gotox, incr, calc, calc, calc, calc]
+        param:
+          [
+            "Math.round(Math.random() * (62 - 1) + 1)",
+            "validrounds",
+            "details+='✅《海贼王》的作者是谁？答案是`尾田荣一郎`\\n\\n'",
+            "score+(100/totalrounds)",
+            "grams+500",
+            "lastone=''",
+          ]
+      - keywords: [b, 青山刚昌, c, 臼井义人, d, 樱桃子]
+        description: ""
+        action: [gotox, incr, calc, calc]
+        param:
+          [
+            "Math.round(Math.random() * (62 - 1) + 1)",
+            "validrounds",
+            "details+='❌《海贼王》的作者是谁？答案是`尾田荣一郎`\\n\\n'",
+            "lastone='上一题纠错: 应该是`尾田荣一郎`\\n\\n'",
+          ]
+      - keywords: [继续, 下一步, continue, next, jixu]
+        description: ""
+        action: gotox
+        param: "Math.round(Math.random() * (62 - 1) + 1)"
+  "39":
+    chapter: 哔哩哔哩入学考试
+    story: |-
+      @lastone> @sender，《新世纪福音战士》中的凌波丽的配音是谁？
+      > 
+      > 答题进度: `@validrounds`/@totalrounds
+
+      选项: 
+
+      A.  🎤  绪方惠美
+
+      B.  💃  林原惠
+
+      C.  🎵  三石琴乃
+
+      D.  🏀  吉泽明步
+    choices:
+      - keywords: [b, 林原惠]
+        description: ""
+        action: [gotox, incr, calc, calc, calc, calc]
+        param:
+          [
+            "Math.round(Math.random() * (62 - 1) + 1)",
+            "validrounds",
+            "details+='✅《新世纪福音战士》中的凌波丽的配音是谁？答案是`林原惠`\\n\\n'",
+            "score+(100/totalrounds)",
+            "grams+500",
+            "lastone=''",
+          ]
+      - keywords: [a, 绪方惠美, c, 三石琴乃, d, 吉泽明步]
+        description: ""
+        action: [gotox, incr, calc, calc]
+        param:
+          [
+            "Math.round(Math.random() * (62 - 1) + 1)",
+            "validrounds",
+            "details+='❌《新世纪福音战士》中的凌波丽的配音是谁？答案是`林原惠`\\n\\n'",
+            "lastone='上一题纠错: 应该是`林原惠`\\n\\n'",
+          ]
+      - keywords: [继续, 下一步, continue, next, jixu]
+        description: ""
+        action: gotox
+        param: "Math.round(Math.random() * (62 - 1) + 1)"
+  "40":
+    chapter: 哔哩哔哩入学考试
+    story: |-
+      @lastone> @sender，以下哪一个是“完全数”？
+      > 
+      > 答题进度: `@validrounds`/@totalrounds
+
+      选项: 
+
+      A.  🎤  7
+
+      B.  💃  233
+
+      C.  🎵  496
+
+      D.  🏀  1024
+    choices:
+      - keywords: [c, 496]
+        description: ""
+        action: [gotox, incr, calc, calc, calc, calc]
+        param:
+          [
+            "Math.round(Math.random() * (62 - 1) + 1)",
+            "validrounds",
+            "details+='✅以下哪一个是“完全数”？答案是`496`\\n\\n'",
+            "score+(100/totalrounds)",
+            "grams+500",
+            "lastone=''",
+          ]
+      - keywords: [a, 7, b, 233, d, 1024]
+        description: ""
+        action: [gotox, incr, calc, calc]
+        param:
+          [
+            "Math.round(Math.random() * (62 - 1) + 1)",
+            "validrounds",
+            "details+='❌以下哪一个是“完全数”？答案是`496`\\n\\n'",
+            "lastone='上一题纠错: 应该是`496`\\n\\n'",
+          ]
+      - keywords: [继续, 下一步, continue, next, jixu]
+        description: ""
+        action: gotox
+        param: "Math.round(Math.random() * (62 - 1) + 1)"
+  "41":
+    chapter: 哔哩哔哩入学考试
+    story: |-
+      @lastone> @sender，“这个时候只要微笑就可以了”这句经典台词出自于那部动画？
+      > 
+      > 答题进度: `@validrounds`/@totalrounds
+
+      选项: 
+
+      A.  🎤  《新世纪福音战士》
+
+      B.  💃  《上世纪福音战士》
+
+      C.  🎵  《高智能方程式》
+
+      D.  🏀  《低智能方程式》
+    choices:
+      - keywords: [a, 《新世纪福音战士》]
+        description: ""
+        action: [gotox, incr, calc, calc, calc, calc]
+        param:
+          [
+            "Math.round(Math.random() * (62 - 1) + 1)",
+            "validrounds",
+            "details+='✅“这个时候只要微笑就可以了”这句经典台词出自于那部动画？答案是`《新世纪福音战士》`\\n\\n'",
+            "score+(100/totalrounds)",
+            "grams+500",
+            "lastone=''",
+          ]
+      - keywords:
+          [b, 《上世纪福音战士》, c, 《高智能方程式》, d, 《低智能方程式》]
+        description: ""
+        action: [gotox, incr, calc, calc]
+        param:
+          [
+            "Math.round(Math.random() * (62 - 1) + 1)",
+            "validrounds",
+            "details+='❌“这个时候只要微笑就可以了”这句经典台词出自于那部动画？答案是`《新世纪福音战士》`\\n\\n'",
+            "lastone='上一题纠错: 应该是`《新世纪福音战士》`\\n\\n'",
+          ]
+      - keywords: [继续, 下一步, continue, next, jixu]
+        description: ""
+        action: gotox
+        param: "Math.round(Math.random() * (62 - 1) + 1)"
+  "42":
+    chapter: 哔哩哔哩入学考试
+    story: |-
+      @lastone> @sender，《我的朋友很少》中邻人部第一次和宿所吃的晚饭是？
+      > 
+      > 答题进度: `@validrounds`/@totalrounds
+
+      选项: 
+
+      A.  🎤  地狱拉面
+
+      B.  💃  地狱火锅
+
+      C.  🎵  重庆火锅
+
+      D.  🏀  四川火锅
+    choices:
+      - keywords: [b, 地狱火锅]
+        description: ""
+        action: [gotox, incr, calc, calc, calc, calc]
+        param:
+          [
+            "Math.round(Math.random() * (62 - 1) + 1)",
+            "validrounds",
+            "details+='✅《我的朋友很少》中邻人部第一次和宿所吃的晚饭是？答案是`地狱火锅`\\n\\n'",
+            "score+(100/totalrounds)",
+            "grams+500",
+            "lastone=''",
+          ]
+      - keywords: [a, 地狱拉面, c, 重庆火锅, d, 四川火锅]
+        description: ""
+        action: [gotox, incr, calc, calc]
+        param:
+          [
+            "Math.round(Math.random() * (62 - 1) + 1)",
+            "validrounds",
+            "details+='❌《我的朋友很少》中邻人部第一次和宿所吃的晚饭是？答案是`地狱火锅`\\n\\n'",
+            "lastone='上一题纠错: 应该是`地狱火锅`\\n\\n'",
+          ]
+      - keywords: [继续, 下一步, continue, next, jixu]
+        description: ""
+        action: gotox
+        param: "Math.round(Math.random() * (62 - 1) + 1)"
+  "43":
+    chapter: 哔哩哔哩入学考试
+    story: |-
+      @lastone> @sender，T-34坦克Mod1939配备的主炮口径多大？
+      > 
+      > 答题进度: `@validrounds`/@totalrounds
+
+      选项: 
+
+      A.  🎤  10.1mm
+
+      B.  💃  23.3mm
+
+      C.  🎵  76.2mm
+
+      D.  🏀  255.6mm
+    choices:
+      - keywords: [c, 76.2mm]
+        description: ""
+        action: [gotox, incr, calc, calc, calc, calc]
+        param:
+          [
+            "Math.round(Math.random() * (62 - 1) + 1)",
+            "validrounds",
+            "details+='✅T-34坦克Mod1939配备的主炮口径多大？答案是`76.2mm`\\n\\n'",
+            "score+(100/totalrounds)",
+            "grams+500",
+            "lastone=''",
+          ]
+      - keywords: [a, 10.1mm, b, 23.3mm, d, 255.6mm]
+        description: ""
+        action: [gotox, incr, calc, calc]
+        param:
+          [
+            "Math.round(Math.random() * (62 - 1) + 1)",
+            "validrounds",
+            "details+='❌T-34坦克Mod1939配备的主炮口径多大？答案是`76.2mm`\\n\\n'",
+            "lastone='上一题纠错: 应该是`76.2mm`\\n\\n'",
+          ]
+      - keywords: [继续, 下一步, continue, next, jixu]
+        description: ""
+        action: gotox
+        param: "Math.round(Math.random() * (62 - 1) + 1)"
+  "44":
+    chapter: 哔哩哔哩入学考试
+    story: |-
+      @lastone> @sender，以下哪一部游戏作品不属于Galgame？
+      > 
+      > 答题进度: `@validrounds`/@totalrounds
+
+      选项: 
+
+      A.  🎤  青空下的约定
+
+      B.  💃  白色相簿
+
+      C.  🎵  心跳回忆
+
+      D.  🏀  刺客_信条
+    choices:
+      - keywords: [d, 刺客_信条]
+        description: ""
+        action: [gotox, incr, calc, calc, calc, calc]
+        param:
+          [
+            "Math.round(Math.random() * (62 - 1) + 1)",
+            "validrounds",
+            "details+='✅以下哪一部游戏作品不属于Galgame？答案是`刺客_信条`\\n\\n'",
+            "score+(100/totalrounds)",
+            "grams+500",
+            "lastone=''",
+          ]
+      - keywords: [a, 青空下的约定, b, 白色相簿, c, 心跳回忆]
+        description: ""
+        action: [gotox, incr, calc, calc]
+        param:
+          [
+            "Math.round(Math.random() * (62 - 1) + 1)",
+            "validrounds",
+            "details+='❌以下哪一部游戏作品不属于Galgame？答案是`刺客_信条`\\n\\n'",
+            "lastone='上一题纠错: 应该是`刺客_信条`\\n\\n'",
+          ]
+      - keywords: [继续, 下一步, continue, next, jixu]
+        description: ""
+        action: gotox
+        param: "Math.round(Math.random() * (62 - 1) + 1)"
+  "45":
+    chapter: 哔哩哔哩入学考试
+    story: |-
+      @lastone> @sender，动画《神奇宝贝》中基拉祈多少年醒来一次，并且每次醒来只维持多少天？
+      > 
+      > 答题进度: `@validrounds`/@totalrounds
+
+      选项: 
+
+      A.  🎤  1000, 7
+
+      B.  💃  1024
+
+      C.  🎵  2048
+
+      D.  🏀  4096
+    choices:
+      - keywords: [a, 1000, 7]
+        description: ""
+        action: [gotox, incr, calc, calc, calc, calc]
+        param:
+          [
+            "Math.round(Math.random() * (62 - 1) + 1)",
+            "validrounds",
+            "details+='✅动画《神奇宝贝》中基拉祈多少年醒来一次，并且每次醒来只维持多少天？答案是`1000, 7`\\n\\n'",
+            "score+(100/totalrounds)",
+            "grams+500",
+            "lastone=''",
+          ]
+      - keywords: [b, 1024, c, 2048, d, 4096]
+        description: ""
+        action: [gotox, incr, calc, calc]
+        param:
+          [
+            "Math.round(Math.random() * (62 - 1) + 1)",
+            "validrounds",
+            "details+='❌动画《神奇宝贝》中基拉祈多少年醒来一次，并且每次醒来只维持多少天？答案是`1000, 7`\\n\\n'",
+            "lastone='上一题纠错: 应该是`1000, 7`\\n\\n'",
+          ]
+      - keywords: [继续, 下一步, continue, next, jixu]
+        description: ""
+        action: gotox
+        param: "Math.round(Math.random() * (62 - 1) + 1)"
+  "46":
+    chapter: 哔哩哔哩入学考试
+    story: |-
+      @lastone> @sender，《暗黑破坏神2》中，1秒由多少帧组成？
+      > 
+      > 答题进度: `@validrounds`/@totalrounds
+
+      选项: 
+
+      A.  🎤  24
+
+      B.  💃  25
+
+      C.  🎵  60
+
+      D.  🏀  144
+    choices:
+      - keywords: [b, 25]
+        description: ""
+        action: [gotox, incr, calc, calc, calc, calc]
+        param:
+          [
+            "Math.round(Math.random() * (62 - 1) + 1)",
+            "validrounds",
+            "details+='✅《暗黑破坏神2》中，1秒由多少帧组成？答案是`25`\\n\\n'",
+            "score+(100/totalrounds)",
+            "grams+500",
+            "lastone=''",
+          ]
+      - keywords: [a, 24, c, 60, d, 144]
+        description: ""
+        action: [gotox, incr, calc, calc]
+        param:
+          [
+            "Math.round(Math.random() * (62 - 1) + 1)",
+            "validrounds",
+            "details+='❌《暗黑破坏神2》中，1秒由多少帧组成？答案是`25`\\n\\n'",
+            "lastone='上一题纠错: 应该是`25`\\n\\n'",
+          ]
+      - keywords: [继续, 下一步, continue, next, jixu]
+        description: ""
+        action: gotox
+        param: "Math.round(Math.random() * (62 - 1) + 1)"
+  "47":
+    chapter: 哔哩哔哩入学考试
+    story: |-
+      @lastone> @sender，烧红镍球放入水中会有什么现象？
+      > 
+      > 答题进度: `@validrounds`/@totalrounds
+
+      选项: 
+
+      A.  🎤  心跳的感觉
+
+      B.  💃  鸡肉的味道
+
+      C.  🎵  有奇妙的声音
+
+      D.  🏀  糟糕的台词
+    choices:
+      - keywords: [c, 有奇妙的声音]
+        description: ""
+        action: [gotox, incr, calc, calc, calc, calc]
+        param:
+          [
+            "Math.round(Math.random() * (62 - 1) + 1)",
+            "validrounds",
+            "details+='✅烧红镍球放入水中会有什么现象？答案是`有奇妙的声音`\\n\\n'",
+            "score+(100/totalrounds)",
+            "grams+500",
+            "lastone=''",
+          ]
+      - keywords: [a, 心跳的感觉, b, 鸡肉的味道, d, 糟糕的台词]
+        description: ""
+        action: [gotox, incr, calc, calc]
+        param:
+          [
+            "Math.round(Math.random() * (62 - 1) + 1)",
+            "validrounds",
+            "details+='❌烧红镍球放入水中会有什么现象？答案是`有奇妙的声音`\\n\\n'",
+            "lastone='上一题纠错: 应该是`有奇妙的声音`\\n\\n'",
+          ]
+      - keywords: [继续, 下一步, continue, next, jixu]
+        description: ""
+        action: gotox
+        param: "Math.round(Math.random() * (62 - 1) + 1)"
+  "48":
+    chapter: 哔哩哔哩入学考试
+    story: |-
+      @lastone> @sender，“夜阑卧听风吹雨，铁马冰河入梦来”是谁的诗句？
+      > 
+      > 答题进度: `@validrounds`/@totalrounds
+
+      选项: 
+
+      A.  🎤  李白
+
+      B.  💃  李黑
+
+      C.  🎵  旅游
+
+      D.  🏀  陆游
+    choices:
+      - keywords: [d, 陆游]
+        description: ""
+        action: [gotox, incr, calc, calc, calc, calc]
+        param:
+          [
+            "Math.round(Math.random() * (62 - 1) + 1)",
+            "validrounds",
+            "details+='✅“夜阑卧听风吹雨，铁马冰河入梦来”是谁的诗句？答案是`陆游`\\n\\n'",
+            "score+(100/totalrounds)",
+            "grams+500",
+            "lastone=''",
+          ]
+      - keywords: [a, 李白, b, 李黑, c, 旅游]
+        description: ""
+        action: [gotox, incr, calc, calc]
+        param:
+          [
+            "Math.round(Math.random() * (62 - 1) + 1)",
+            "validrounds",
+            "details+='❌“夜阑卧听风吹雨，铁马冰河入梦来”是谁的诗句？答案是`陆游`\\n\\n'",
+            "lastone='上一题纠错: 应该是`陆游`\\n\\n'",
+          ]
+      - keywords: [继续, 下一步, continue, next, jixu]
+        description: ""
+        action: gotox
+        param: "Math.round(Math.random() * (62 - 1) + 1)"
+  "49":
+    chapter: 哔哩哔哩入学考试
+    story: |-
+      @lastone> @sender，《名侦探柯南》中服部平次是哪里人？
+      > 
+      > 答题进度: `@validrounds`/@totalrounds
+
+      选项: 
+
+      A.  🎤  大阪
+
+      B.  💃  米花
+
+      C.  🎵  东京
+
+      D.  🏀  京都
+    choices:
+      - keywords: [a, 大阪]
+        description: ""
+        action: [gotox, incr, calc, calc, calc, calc]
+        param:
+          [
+            "Math.round(Math.random() * (62 - 1) + 1)",
+            "validrounds",
+            "details+='✅《名侦探柯南》中服部平次是哪里人？答案是`大阪`\\n\\n'",
+            "score+(100/totalrounds)",
+            "grams+500",
+            "lastone=''",
+          ]
+      - keywords: [b, 米花, c, 东京, d, 京都]
+        description: ""
+        action: [gotox, incr, calc, calc]
+        param:
+          [
+            "Math.round(Math.random() * (62 - 1) + 1)",
+            "validrounds",
+            "details+='❌《名侦探柯南》中服部平次是哪里人？答案是`大阪`\\n\\n'",
+            "lastone='上一题纠错: 应该是`大阪`\\n\\n'",
+          ]
+      - keywords: [继续, 下一步, continue, next, jixu]
+        description: ""
+        action: gotox
+        param: "Math.round(Math.random() * (62 - 1) + 1)"
+  "50":
+    chapter: 哔哩哔哩入学考试
+    story: |-
+      @lastone> @sender，与宫崎骏常年合作的著名音乐家是谁？
+      > 
+      > 答题进度: `@validrounds`/@totalrounds
+
+      选项: 
+
+      A.  🎤  大野克夫
+
+      B.  💃  久石让
+
+      C.  🎵  高梨康治
+
+      D.  🏀  丰浦由纪
+    choices:
+      - keywords: [b, 久石让]
+        description: ""
+        action: [gotox, incr, calc, calc, calc, calc]
+        param:
+          [
+            "Math.round(Math.random() * (62 - 1) + 1)",
+            "validrounds",
+            "details+='✅与宫崎骏常年合作的著名音乐家是谁？答案是`久石让`\\n\\n'",
+            "score+(100/totalrounds)",
+            "grams+500",
+            "lastone=''",
+          ]
+      - keywords: [a, 大野克夫, c, 高梨康治, d, 丰浦由纪]
+        description: ""
+        action: [gotox, incr, calc, calc]
+        param:
+          [
+            "Math.round(Math.random() * (62 - 1) + 1)",
+            "validrounds",
+            "details+='❌与宫崎骏常年合作的著名音乐家是谁？答案是`久石让`\\n\\n'",
+            "lastone='上一题纠错: 应该是`久石让`\\n\\n'",
+          ]
+      - keywords: [继续, 下一步, continue, next, jixu]
+        description: ""
+        action: gotox
+        param: "Math.round(Math.random() * (62 - 1) + 1)"
+  "51":
+    chapter: 哔哩哔哩入学考试
+    story: |-
+      @lastone> @sender，《摇曳百合》中京子喜爱的冰淇淋口味是什么？
+      > 
+      > 答题进度: `@validrounds`/@totalrounds
+
+      选项: 
+
+      A.  🎤  可口可乐无糖
+
+      B.  💃  烧仙草珍珠
+
+      C.  🎵  朗姆酒葡萄干
+
+      D.  🏀  吱吱芒芒
+    choices:
+      - keywords: [c, 朗姆酒葡萄干]
+        description: ""
+        action: [gotox, incr, calc, calc, calc, calc]
+        param:
+          [
+            "Math.round(Math.random() * (62 - 1) + 1)",
+            "validrounds",
+            "details+='✅《摇曳百合》中京子喜爱的冰淇淋口味是什么？答案是`朗姆酒葡萄干`\\n\\n'",
+            "score+(100/totalrounds)",
+            "grams+500",
+            "lastone=''",
+          ]
+      - keywords: [a, 可口可乐无糖, b, 烧仙草珍珠, d, 吱吱芒芒]
+        description: ""
+        action: [gotox, incr, calc, calc]
+        param:
+          [
+            "Math.round(Math.random() * (62 - 1) + 1)",
+            "validrounds",
+            "details+='❌《摇曳百合》中京子喜爱的冰淇淋口味是什么？答案是`朗姆酒葡萄干`\\n\\n'",
+            "lastone='上一题纠错: 应该是`朗姆酒葡萄干`\\n\\n'",
+          ]
+      - keywords: [继续, 下一步, continue, next, jixu]
+        description: ""
+        action: gotox
+        param: "Math.round(Math.random() * (62 - 1) + 1)"
+  "52":
+    chapter: 哔哩哔哩入学考试
+    story: |-
+      @lastone> @sender，杀手47的后脑勺上有什么？
+      > 
+      > 答题进度: `@validrounds`/@totalrounds
+
+      选项: 
+
+      A.  🎤  条形码
+
+      B.  💃  二维码
+
+      C.  🎵  自然码
+
+      D.  🏀  郑码
+    choices:
+      - keywords: [a, 条形码]
+        description: ""
+        action: [gotox, incr, calc, calc, calc, calc]
+        param:
+          [
+            "Math.round(Math.random() * (62 - 1) + 1)",
+            "validrounds",
+            "details+='✅杀手47的后脑勺上有什么？答案是`条形码`\\n\\n'",
+            "score+(100/totalrounds)",
+            "grams+500",
+            "lastone=''",
+          ]
+      - keywords: [b, 二维码, c, 自然码, d, 郑码]
+        description: ""
+        action: [gotox, incr, calc, calc]
+        param:
+          [
+            "Math.round(Math.random() * (62 - 1) + 1)",
+            "validrounds",
+            "details+='❌杀手47的后脑勺上有什么？答案是`条形码`\\n\\n'",
+            "lastone='上一题纠错: 应该是`条形码`\\n\\n'",
+          ]
+      - keywords: [继续, 下一步, continue, next, jixu]
+        description: ""
+        action: gotox
+        param: "Math.round(Math.random() * (62 - 1) + 1)"
+  "53":
+    chapter: 哔哩哔哩入学考试
+    story: |-
+      @lastone> @sender，身为纯爷们，绝对从不回头看什么
+      > 
+      > 答题进度: `@validrounds`/@totalrounds
+
+      选项: 
+
+      A.  🎤  作弊
+
+      B.  💃  吃饭
+
+      C.  🎵  爆炸
+
+      D.  🏀  美女
+    choices:
+      - keywords: [c, 爆炸]
+        description: ""
+        action: [gotox, incr, calc, calc, calc, calc]
+        param:
+          [
+            "Math.round(Math.random() * (62 - 1) + 1)",
+            "validrounds",
+            "details+='✅身为纯爷们，绝对从不回头看什么答案是`爆炸`\\n\\n'",
+            "score+(100/totalrounds)",
+            "grams+500",
+            "lastone=''",
+          ]
+      - keywords: [a, 作弊, b, 吃饭, d, 美女]
+        description: ""
+        action: [gotox, incr, calc, calc]
+        param:
+          [
+            "Math.round(Math.random() * (62 - 1) + 1)",
+            "validrounds",
+            "details+='❌身为纯爷们，绝对从不回头看什么答案是`爆炸`\\n\\n'",
+            "lastone='上一题纠错: 应该是`爆炸`\\n\\n'",
+          ]
+      - keywords: [继续, 下一步, continue, next, jixu]
+        description: ""
+        action: gotox
+        param: "Math.round(Math.random() * (62 - 1) + 1)"
+  "54":
+    chapter: 哔哩哔哩入学考试
+    story: |-
+      @lastone> @sender，初音未来的音源提供者是哪个声优？
+      > 
+      > 答题进度: `@validrounds`/@totalrounds
+
+      选项: 
+
+      A.  🎤  藤田咲
+
+      B.  💃  钉宫理惠
+
+      C.  🎵  水树奈奈
+
+      D.  🏀  花泽香菜
+    choices:
+      - keywords: [a, 藤田咲]
+        description: ""
+        action: [gotox, incr, calc, calc, calc, calc]
+        param:
+          [
+            "Math.round(Math.random() * (62 - 1) + 1)",
+            "validrounds",
+            "details+='✅初音未来的音源提供者是哪个声优？答案是`藤田咲`\\n\\n'",
+            "score+(100/totalrounds)",
+            "grams+500",
+            "lastone=''",
+          ]
+      - keywords: [b, 钉宫理惠, c, 水树奈奈, d, 花泽香菜]
+        description: ""
+        action: [gotox, incr, calc, calc]
+        param:
+          [
+            "Math.round(Math.random() * (62 - 1) + 1)",
+            "validrounds",
+            "details+='❌初音未来的音源提供者是哪个声优？答案是`藤田咲`\\n\\n'",
+            "lastone='上一题纠错: 应该是`藤田咲`\\n\\n'",
+          ]
+      - keywords: [继续, 下一步, continue, next, jixu]
+        description: ""
+        action: gotox
+        param: "Math.round(Math.random() * (62 - 1) + 1)"
+  "55":
+    chapter: 哔哩哔哩入学考试
+    story: |-
+      @lastone> @sender，著名电子游戏《上古卷轴》是由哪家公司开发的？
+      > 
+      > 答题进度: `@validrounds`/@totalrounds
+
+      选项: 
+
+      A.  🎤  Capcom
+
+      B.  💃  Bethesda
+
+      C.  🎵  EA
+
+      D.  🏀  Tencent
+    choices:
+      - keywords: [b, Bethesda]
+        description: ""
+        action: [gotox, incr, calc, calc, calc, calc]
+        param:
+          [
+            "Math.round(Math.random() * (62 - 1) + 1)",
+            "validrounds",
+            "details+='✅著名电子游戏《上古卷轴》是由哪家公司开发的？答案是`Bethesda`\\n\\n'",
+            "score+(100/totalrounds)",
+            "grams+500",
+            "lastone=''",
+          ]
+      - keywords: [a, Capcom, c, EA, d, Tencent]
+        description: ""
+        action: [gotox, incr, calc, calc]
+        param:
+          [
+            "Math.round(Math.random() * (62 - 1) + 1)",
+            "validrounds",
+            "details+='❌著名电子游戏《上古卷轴》是由哪家公司开发的？答案是`Bethesda`\\n\\n'",
+            "lastone='上一题纠错: 应该是`Bethesda`\\n\\n'",
+          ]
+      - keywords: [继续, 下一步, continue, next, jixu]
+        description: ""
+        action: gotox
+        param: "Math.round(Math.random() * (62 - 1) + 1)"
+  "56":
+    chapter: 哔哩哔哩入学考试
+    story: |-
+      @lastone> @sender，石蕗惠汰,羽濑川小鹰,须贺京太郎,大路饼藏四人的共同点包括
+      > 
+      > 答题进度: `@validrounds`/@totalrounds
+
+      选项: 
+
+      A.  🎤  都是女孩子
+
+      B.  💃  都拍过电影
+
+      C.  🎵  都是男孩子
+
+      D.  🏀  都唱歌好听
+    choices:
+      - keywords: [c, 都是男孩子]
+        description: ""
+        action: [gotox, incr, calc, calc, calc, calc]
+        param:
+          [
+            "Math.round(Math.random() * (62 - 1) + 1)",
+            "validrounds",
+            "details+='✅石蕗惠汰,羽濑川小鹰,须贺京太郎,大路饼藏四人的共同点包括答案是`都是男孩子`\\n\\n'",
+            "score+(100/totalrounds)",
+            "grams+500",
+            "lastone=''",
+          ]
+      - keywords: [a, 都是女孩子, b, 都拍过电影, d, 都唱歌好听]
+        description: ""
+        action: [gotox, incr, calc, calc]
+        param:
+          [
+            "Math.round(Math.random() * (62 - 1) + 1)",
+            "validrounds",
+            "details+='❌石蕗惠汰,羽濑川小鹰,须贺京太郎,大路饼藏四人的共同点包括答案是`都是男孩子`\\n\\n'",
+            "lastone='上一题纠错: 应该是`都是男孩子`\\n\\n'",
+          ]
+      - keywords: [继续, 下一步, continue, next, jixu]
+        description: ""
+        action: gotox
+        param: "Math.round(Math.random() * (62 - 1) + 1)"
+  "57":
+    chapter: 哔哩哔哩入学考试
+    story: |-
+      @lastone> @sender，圣斗士星矢的看家技能是？
+      > 
+      > 答题进度: `@validrounds`/@totalrounds
+
+      选项: 
+
+      A.  🎤  天马流星拳
+
+      B.  💃  排山倒海
+
+      C.  🎵  葵花点穴手
+
+      D.  🏀  子曾经曰过
+    choices:
+      - keywords: [a, 天马流星拳]
+        description: ""
+        action: [gotox, incr, calc, calc, calc, calc]
+        param:
+          [
+            "Math.round(Math.random() * (62 - 1) + 1)",
+            "validrounds",
+            "details+='✅圣斗士星矢的看家技能是？答案是`天马流星拳`\\n\\n'",
+            "score+(100/totalrounds)",
+            "grams+500",
+            "lastone=''",
+          ]
+      - keywords: [b, 排山倒海, c, 葵花点穴手, d, 子曾经曰过]
+        description: ""
+        action: [gotox, incr, calc, calc]
+        param:
+          [
+            "Math.round(Math.random() * (62 - 1) + 1)",
+            "validrounds",
+            "details+='❌圣斗士星矢的看家技能是？答案是`天马流星拳`\\n\\n'",
+            "lastone='上一题纠错: 应该是`天马流星拳`\\n\\n'",
+          ]
+      - keywords: [继续, 下一步, continue, next, jixu]
+        description: ""
+        action: gotox
+        param: "Math.round(Math.random() * (62 - 1) + 1)"
+  "58":
+    chapter: 哔哩哔哩入学考试
+    story: |-
+      @lastone> @sender，魔兽世界里的联盟英雄吉安娜是什么职业？
+      > 
+      > 答题进度: `@validrounds`/@totalrounds
+
+      选项: 
+
+      A.  🎤  骑士
+
+      B.  💃  法师
+
+      C.  🎵  武僧
+
+      D.  🏀  术士
+    choices:
+      - keywords: [b, 法师]
+        description: ""
+        action: [gotox, incr, calc, calc, calc, calc]
+        param:
+          [
+            "Math.round(Math.random() * (62 - 1) + 1)",
+            "validrounds",
+            "details+='✅魔兽世界里的联盟英雄吉安娜是什么职业？答案是`法师`\\n\\n'",
+            "score+(100/totalrounds)",
+            "grams+500",
+            "lastone=''",
+          ]
+      - keywords: [a, 骑士, c, 武僧, d, 术士]
+        description: ""
+        action: [gotox, incr, calc, calc]
+        param:
+          [
+            "Math.round(Math.random() * (62 - 1) + 1)",
+            "validrounds",
+            "details+='❌魔兽世界里的联盟英雄吉安娜是什么职业？答案是`法师`\\n\\n'",
+            "lastone='上一题纠错: 应该是`法师`\\n\\n'",
+          ]
+      - keywords: [继续, 下一步, continue, next, jixu]
+        description: ""
+        action: gotox
+        param: "Math.round(Math.random() * (62 - 1) + 1)"
+  "59":
+    chapter: 哔哩哔哩入学考试
+    story: |-
+      @lastone> @sender，谁被称为日本动画界的黑泽明？
+      > 
+      > 答题进度: `@validrounds`/@totalrounds
+
+      选项: 
+
+      A.  🎤  新海诚
+
+      B.  💃  青山刚昌
+
+      C.  🎵  宫崎骏
+
+      D.  🏀  北野武
+    choices:
+      - keywords: [c, 宫崎骏]
+        description: ""
+        action: [gotox, incr, calc, calc, calc, calc]
+        param:
+          [
+            "Math.round(Math.random() * (62 - 1) + 1)",
+            "validrounds",
+            "details+='✅谁被称为日本动画界的黑泽明？答案是`宫崎骏`\\n\\n'",
+            "score+(100/totalrounds)",
+            "grams+500",
+            "lastone=''",
+          ]
+      - keywords: [a, 新海诚, b, 青山刚昌, d, 北野武]
+        description: ""
+        action: [gotox, incr, calc, calc]
+        param:
+          [
+            "Math.round(Math.random() * (62 - 1) + 1)",
+            "validrounds",
+            "details+='❌谁被称为日本动画界的黑泽明？答案是`宫崎骏`\\n\\n'",
+            "lastone='上一题纠错: 应该是`宫崎骏`\\n\\n'",
+          ]
+      - keywords: [继续, 下一步, continue, next, jixu]
+        description: ""
+        action: gotox
+        param: "Math.round(Math.random() * (62 - 1) + 1)"
+  "60":
+    chapter: 哔哩哔哩入学考试
+    story: |-
+      @lastone> @sender，虽然我可爱又迷人，但我会招来__？
+      > 
+      > 答题进度: `@validrounds`/@totalrounds
+
+      选项: 
+
+      A.  🎤  桃花
+
+      B.  💃  死亡
+
+      C.  🎵  钱财
+
+      D.  🏀  好运
+    choices:
+      - keywords: [b, 死亡]
+        description: ""
+        action: [gotox, incr, calc, calc, calc, calc]
+        param:
+          [
+            "Math.round(Math.random() * (62 - 1) + 1)",
+            "validrounds",
+            "details+='✅虽然我可爱又迷人，但我会招来__？答案是`死亡`\\n\\n'",
+            "score+(100/totalrounds)",
+            "grams+500",
+            "lastone=''",
+          ]
+      - keywords: [a, 桃花, c, 钱财, d, 好运]
+        description: ""
+        action: [gotox, incr, calc, calc]
+        param:
+          [
+            "Math.round(Math.random() * (62 - 1) + 1)",
+            "validrounds",
+            "details+='❌虽然我可爱又迷人，但我会招来__？答案是`死亡`\\n\\n'",
+            "lastone='上一题纠错: 应该是`死亡`\\n\\n'",
+          ]
+      - keywords: [继续, 下一步, continue, next, jixu]
+        description: ""
+        action: gotox
+        param: "Math.round(Math.random() * (62 - 1) + 1)"
+  "61":
+    chapter: 哔哩哔哩入学考试
+    story: |-
+      @lastone> @sender，动漫11区指哪里？
+      > 
+      > 答题进度: `@validrounds`/@totalrounds
+
+      选项: 
+
+      A.  🎤  中国
+
+      B.  💃  韩国
+
+      C.  🎵  美国
+
+      D.  🏀  日本
+    choices:
+      - keywords: [d, 日本]
+        description: ""
+        action: [gotox, incr, calc, calc, calc, calc]
+        param:
+          [
+            "Math.round(Math.random() * (62 - 1) + 1)",
+            "validrounds",
+            "details+='✅动漫11区指哪里？答案是`日本`\\n\\n'",
+            "score+(100/totalrounds)",
+            "grams+500",
+            "lastone=''",
+          ]
+      - keywords: [a, 中国, b, 韩国, c, 美国]
+        description: ""
+        action: [gotox, incr, calc, calc]
+        param:
+          [
+            "Math.round(Math.random() * (62 - 1) + 1)",
+            "validrounds",
+            "details+='❌动漫11区指哪里？答案是`日本`\\n\\n'",
+            "lastone='上一题纠错: 应该是`日本`\\n\\n'",
+          ]
+      - keywords: [继续, 下一步, continue, next, jixu]
+        description: ""
+        action: gotox
+        param: "Math.round(Math.random() * (62 - 1) + 1)"
+  "62":
+    chapter: 哔哩哔哩入学考试
+    story: |-
+      @lastone> @sender，暴走漫画的男主角一般都叫什么？
+      > 
+      > 答题进度: `@validrounds`/@totalrounds
+
+      选项: 
+
+      A.  🎤  王尼玛
+
+      B.  💃  木子
+
+      C.  🎵  纸巾
+
+      D.  🏀  马云
+    choices:
+      - keywords: [a, 王尼玛]
+        description: ""
+        action: [gotox, incr, calc, calc, calc, calc]
+        param:
+          [
+            "Math.round(Math.random() * (62 - 1) + 1)",
+            "validrounds",
+            "details+='✅暴走漫画的男主角一般都叫什么？答案是`王尼玛`\\n\\n'",
+            "score+(100/totalrounds)",
+            "grams+500",
+            "lastone=''",
+          ]
+      - keywords: [b, 木子, c, 纸巾, d, 马云]
+        description: ""
+        action: [gotox, incr, calc, calc]
+        param:
+          [
+            "Math.round(Math.random() * (62 - 1) + 1)",
+            "validrounds",
+            "details+='❌暴走漫画的男主角一般都叫什么？答案是`王尼玛`\\n\\n'",
+            "lastone='上一题纠错: 应该是`王尼玛`\\n\\n'",
+          ]
+      - keywords: [继续, 下一步, continue, next, jixu]
+        description: ""
+        action: gotox
+        param: "Math.round(Math.random() * (62 - 1) + 1)"
+dynamics:
+  - conditions:
+      chapter: "*"
+      expression: validrounds > totalrounds && used1 == 0 && score >= 99
+    action: [goto, incr]
+    param: ["1.A", "used1"]
+  - conditions:
+      chapter: "*"
+      expression: validrounds > totalrounds && used1 == 0 && score > 40 && score < 99
+    action: [goto, incr]
+    param: ["1.B", "used1"]
+  - conditions:
+      chapter: "*"
+      expression: validrounds > totalrounds && used1 == 0 && score <= 40
+    action: [goto, incr]
+    param: ["1.C", "used1"]
+defaults:
+  - conditions:
+      chapter: "*"
+      keywords: [help, man, 帮助, 怎么玩, 你是谁]
+    action: none
+    description: |-
+      > 欢迎来到`@title`，这是一个模拟哔哩哔哩入学考试的问答游戏✍️
+      > 
+      > 游戏规则是通过@bot，回复题目中的垃圾类型，完成挑战。整个挑战包括`5`道题，题库随机。
+      > 
+      > 除了回复`A B C D`外，你还可以回复`help、hint、reset`等指令，来获取帮助、提升和重置进度。
+      > 
+      > 群聊里的玩家可以`共同努力`💪，群策群力，取得好成绩💯
+
+      游戏基本操作如下: 
+
+      **继续游戏**: 直接@我即可
+
+      **开始游戏**: start
+
+      **帮助**: help、man
+
+      **提示**: hint
+
+      **重置**: reset
+  - conditions:
+      chapter: "*"
+      keywords: [hint, 提示]
+    action: none
+    description: "@sender，本小题没有提示😂"
+  - conditions:
+      chapter: "*"
+      keywords: [reset, start, 重置, 开始, 重新开始, 开始游戏]
+    action: reset
+    description: "重置章节"
+  - conditions:
+      chapter: "*"
+      keywords: []
+    action: none
+    description: "> 😯没听懂，欧尼酱，请再说一遍？"
