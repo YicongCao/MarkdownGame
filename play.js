@@ -56,7 +56,7 @@ function proceed(stage, input, chapter, vars) {
             ret.variables = vars
         }
         // 动态执行代码
-        var evalEx = function (cmd) {
+        var evalEx = function (cmd, savechg = false) {
             var cmdLines = []
             // 因为需要初始化所有变量，所以要遍历整个变量声明列表
             variables.forEach(element => {
@@ -69,7 +69,16 @@ function proceed(stage, input, chapter, vars) {
             cmdLines.push(cmd)
             var cmdCode = cmdLines.join(";\n")
             // console.log("\n[evalex begin]\n", cmdCode, "\n[evalex end]\n")
-            return eval(cmdCode)
+            var evalRet = eval(cmdCode)
+            // 原地保存修改
+            if (savechg) {
+                variables.forEach(element => {
+                    if (element != undefined && element != "") {
+                        vars[element] = eval(element)
+                    }
+                })
+            }
+            return evalRet
         }
         // 执行该选项的行动
         var execute = function (choice) {
@@ -124,6 +133,13 @@ function proceed(stage, input, chapter, vars) {
                     if (varName != "") {
                         vars[varName] = evalEx(paramSet[index])
                     }
+                    ret.output = choice.description
+                    ret.variables = vars
+                } else if (action == "eval") {
+                    // 变量运算，章节不变
+                    varChanged = true
+                    // 原地保存结果
+                    evalEx(paramSet[index], true)
                     ret.output = choice.description
                     ret.variables = vars
                 } else if (action == "reset") {
