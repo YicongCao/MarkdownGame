@@ -46,7 +46,7 @@ function proceed(stage, input, chapter, vars) {
     var process = function (choice) {
         var ret = {
             chapter: chapter,
-            output: "",
+            output: [],
             variables: vars
         }
         // 记录回合数: rounds
@@ -97,6 +97,10 @@ function proceed(stage, input, chapter, vars) {
                 console.log("choice action exception")
                 return varChanged
             }
+            // 处理输出
+            if (choice.description != "") {
+                ret.output.push(choice.description)
+            }
             // 执行
             actionSet.forEach((action, index) => {
                 if (action == "goto") {
@@ -107,24 +111,15 @@ function proceed(stage, input, chapter, vars) {
                     ret.chapter = String(chapterNext)
                 } else if (action == "none") {
                     // 章节不变
-                    if (choice.description) {
-                        ret.output = choice.description
-                    }
                 } else if (action == "incr") {
                     // 变量增加，章节不变
                     varChanged = true
                     vars[paramSet[index]] = vars[paramSet[index]] == undefined ? 1 : vars[paramSet[index]] + 1
-                    if (choice.description) {
-                        ret.output = choice.description
-                    }
                     ret.variables = vars
                 } else if (action == "decr") {
                     // 变量减少，章节不变
                     varChanged = true
                     vars[paramSet[index]] = vars[paramSet[index]] == undefined ? 0 : vars[paramSet[index]] - 1
-                    if (choice.description) {
-                        ret.output = choice.description
-                    }
                     ret.variables = vars
                 } else if (action == "calc") {
                     // 变量运算，章节不变
@@ -139,18 +134,12 @@ function proceed(stage, input, chapter, vars) {
                     if (varName != "") {
                         vars[varName] = evalEx(paramSet[index])
                     }
-                    if (choice.description) {
-                        ret.output = choice.description
-                    }
                     ret.variables = vars
                 } else if (action == "eval") {
                     // 变量运算，章节不变
                     varChanged = true
                     // 原地保存结果
                     evalEx(paramSet[index], true)
-                    if (choice.description) {
-                        ret.output = choice.description
-                    }
                     ret.variables = vars
                 } else if (action == "reset") {
                     // 重置章节到开头，清空变量环境
@@ -158,7 +147,7 @@ function proceed(stage, input, chapter, vars) {
                     ret.variables = {}
                 } else {
                     console.log("choice action exception")
-                    ret.output = "行为配置异常，游戏树崩塌"
+                    ret.output.push("行为配置异常，游戏树崩塌")
                 }
             })
             return varChanged
@@ -250,40 +239,31 @@ function play(input, profile, scriptObj) {
     var vars = profile.variables
     // console.log("玩家:", player, "当前章节:", chapter, "输入:", input)
     var chapterAfter = chapter
-    var outputText = ""
+    var outputText = []
     var stage = script.stages[chapter]
     if (String(input).trim() == "") {
         // 播放当前剧情
         // console.log("用户无输入，播放当前剧情")
-        outputText = displayStage(stage, player, vars)
+        outputText.push(displayStage(stage, player, vars))
     } else {
         // 处理用户输入
         var result = proceed(stage, input, chapter, vars)
+        // 处理结果
         chapterAfter = result.chapter
         vars = result.variables
-        if (result.chapter == chapter) {
-            // 章节没有推进
-            // console.log("章节没有推进")
-            if (!result.output) {
-                outputText = displayStage(stage, player, vars)
-            } else {
-                outputText = displayCustom(stage, result.output, player, vars)
-            }
-        } else {
-            // 章节推进了
-            // console.log("章节推进了～")
-            var stageNext = script.stages[chapterAfter]
-            if (stageNext == undefined) {
-                outputText = "新章节不存在"
-            } else {
-                outputText = displayStage(stageNext, player, vars)
-            }
+        var stageToShow = result.chapter == chapter?stage:script.stages[result.chapter]
+        // 处理内容显示
+        if (result.output.length > 0) {
+            outputText.push(displayCustom(stage, result.output.join('\n'), player, vars))
+        } 
+        if (result.output.length == 0 || result.chapter != chapter) {
+            outputText.push(displayStage(stageToShow, player, vars))
         }
     }
 
     return {
         chapter: chapterAfter,
-        output: outputText,
+        output: outputText.join('\n'),
         variables: vars
     }
 }
