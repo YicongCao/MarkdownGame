@@ -71,5 +71,6 @@ while (true) {
     profile.variables = scene.variables
     save.saveToDisk(profileFileName, profile)
     // 展示剧情
+    console.log("-----------------")
     console.log(scene.output)
 }

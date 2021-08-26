@@ -15,7 +15,7 @@ function displayCustom(stage, defmsg, player, vars) {
     Object.keys(script.constants).forEach(function (key) {
         defmsg = defmsg.replace("@" + key, script.constants[key])
     })
-    var template = '#### [title]\n[story]\n'
+    var template = '#### [title]\n\n[story]\n'
     var output = template.replace("[title]", stage == undefined ? "未知章节" : stage.chapter).replace("[story]", defmsg)
     return output
 }
