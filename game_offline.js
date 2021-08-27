@@ -74,7 +74,6 @@ const startgame = async () => {
     console.log(scene.output)
     while (true) {
         var input = await question("\n> 请输入您的操作: ")
-        console.log("[DEBUG] your input:", input)
         if (input == "exit" || input == "quit" || input == "退出") {
             break
         }
