@@ -1,6 +1,6 @@
 {
     "name": "mdgame",
-    "version": "1.1.5",
+    "version": "1.1.6",
     "description": "Markdown文字冒险游戏",
     "main": "play.js",
     "bin": {
@@ -21,7 +21,6 @@
     "license": "MIT",
     "dependencies": {
         "commander": "^2.20.0",
-        "readline-sync": "^1.4.10",
         "yamljs": "^0.3.0"
     },
     "devDependencies": {

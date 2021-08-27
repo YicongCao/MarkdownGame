@@ -1,6 +1,19 @@
 #!/usr/bin/env node
 
-const readline = require("readline-sync")
+const readline = require("readline")
+const question = question => {
+    const rl = readline.createInterface({
+        input: process.stdin,
+        output: process.stdout
+    })
+
+    return new Promise(resolve => {
+        rl.question(question, answer => {
+            rl.close()
+            return resolve(answer)
+        })
+    })
+}
 const program = require("commander")
 const path = require("path")
 const loadScript = require('./script_loader') // 使用 loader
@@ -39,38 +52,44 @@ if (!script) {
     return -1
 }
 var profile = save.loadFromDisk(profileFileName)
-// 新开存档
-if (profile == undefined) {
-    var player = readline.question("\n> 请输入您的大名: ")
-    if (player == undefined || String(player).trim() == "") {
-        console.log("那就用默认名称吧～")
-        player = "玩家"
+
+const startgame = async () => {
+    // 新开存档
+    if (profile == undefined) {
+        var player = await question("\n> 请输入您的大名: ")
+        if (player == undefined || String(player).trim() == "") {
+            console.log("那就用默认名称吧～")
+            player = "玩家"
+        }
+        profile = {
+            player: player,
+            chapter: "1.1",
+            variables: {},
+            inputs: []
+        }
+        save.saveToDisk(profileFileName, profile)
     }
-    profile = {
-        player: player,
-        chapter: "1.1",
-        variables: {},
-        inputs: []
-    }
-    save.saveToDisk(profileFileName, profile)
-}
-// 继续游戏
-var scene = play("", profile, script)
-console.log(scene.output)
-while (true) {
-    var input = readline.question("\n> 请输入您的操作: ")
-    if (input == "exit" || input == "quit" || input == "退出") {
-        break
-    }
-    // 对局
-    profile.inputs.push(input)
-    save.saveToDisk(profileFileName, profile)
-    scene = play(input, profile, script)
-    // 存档
-    profile.chapter = scene.chapter
-    profile.variables = scene.variables
-    save.saveToDisk(profileFileName, profile)
-    // 展示剧情
-    console.log("-----------------")
+    // 继续游戏
+    var scene = play("", profile, script)
     console.log(scene.output)
+    while (true) {
+        var input = await question("\n> 请输入您的操作: ")
+        console.log("[DEBUG] your input:", input)
+        if (input == "exit" || input == "quit" || input == "退出") {
+            break
+        }
+        // 对局
+        profile.inputs.push(input)
+        save.saveToDisk(profileFileName, profile)
+        scene = play(input, profile, script)
+        // 存档
+        profile.chapter = scene.chapter
+        profile.variables = scene.variables
+        save.saveToDisk(profileFileName, profile)
+        // 展示剧情
+        console.log("-----------------")
+        console.log(scene.output)
+    }
 }
+
+startgame()
